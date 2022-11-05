@@ -1,5 +1,6 @@
 package net.xboard;
 
+import net.xboard.commands.MainCommand;
 import net.xboard.commands.ScoreboardCommand;
 import net.xboard.listeners.ScoreboardListener;
 import net.xboard.scoreboard.ScoreboardHandler;
@@ -56,6 +57,8 @@ public final class XBoard extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboardHandler), this);
 		
 		HandlerService.commandLoader(this)
+			.command("xboard")
+			.executor(new MainCommand(configurationHandler, scoreboardHandler))
 			.command("scoreboard")
 			.executor(new ScoreboardCommand(configurationHandler, scoreboardHandler))
 			.register();
