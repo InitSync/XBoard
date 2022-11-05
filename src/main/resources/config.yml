@@ -25,31 +25,14 @@ config:
     # Allow show the scoreboard to player?
     allow: true
 
-    # Use the worlds list as a whitelist?
-    as-whitelist: false
-
     # Worlds list where the scoreboard can/can't appear.
     worlds:
       - world1
       - world2
       - world3
 
-    title:
-      # Do you want use the animated-title?
-      allow-animated-title: true
-
-      # Update rate for the animated-title.
-      update-rate: 7
-
-      # Default title for the scoreboard when the animated-title isn't enabled.
-      default: "&d[XBoard] &8- &7<release>"
-
-      # Animated-Title lines.
-      lines:
-        - "&d[XBoard] &8- &7<release>"
-        - "&b[XBoard] &8- &7<release>"
-        - "&e[XBoard] &8- &7<release>"
-        - "&6[XBoard] &8- &7<release>"
+    # Title for each Scoreboard.
+    title: "&d[XBoard] &8- &7<release>"
 
     body:
       # Update rate for the body. (Scoreboard Lines)
