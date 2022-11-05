@@ -149,14 +149,17 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 		Objects.requireNonNull(player, "The player is null.");
 		
 		final UUID playerId = player.getUniqueId();
+		
+		if (!scoreboards.containsKey(playerId) || !tasks.containsKey(playerId)) {
+			create(player);
+			return true;
+		}
+		
 		final FastBoard board = scoreboards.remove(playerId);
 		if (!board.isDeleted()) {
 			tasks.remove(playerId).cancel();
 			board.delete();
-			return false;
 		}
-		
-		create(player);
-		return true;
+		return false;
 	}
 }
