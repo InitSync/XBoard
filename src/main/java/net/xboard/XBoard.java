@@ -33,7 +33,7 @@ public final class XBoard extends JavaPlugin {
 		
 		configurationManager = ConfigurationService.bukkitManager(this);
 		configurationHandler = ConfigurationService.bukkitHandler(configurationManager);
-		scoreboardHandler = HandlerService.scoreboardHandler(configurationHandler);
+		scoreboardHandler = HandlerService.scoreboardHandler(this, configurationHandler);
 	}
 	
 	public static @NotNull XBoard instance() {
