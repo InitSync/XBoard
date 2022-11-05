@@ -160,11 +160,11 @@ public final class ScoreboardCommand implements CommandExecutor {
 					final FastBoard playerScoreboard = scoreboardHandler.getByUuid(player.getUniqueId());
 					if (playerScoreboard == null) return false;
 					
-					final String newTitle = TextUtils.parse(player, args[0]);
+					final String newTitle = TextUtils.parse(player, args[1]);
 					playerScoreboard.updateTitle(newTitle);
 					
 					player.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-							"message.scoreboard-title-changed",
+							"messages.scoreboard-title-changed",
 							"messages.yml")
 						.replace("<prefix>", prefix)
 						.replace("<new_title>", newTitle)));
