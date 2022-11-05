@@ -23,12 +23,17 @@ import java.util.*;
  * @see net.xboard.scoreboard.ScoreboardHandler
  */
 public final class ScoreboardHandlerImpl implements ScoreboardHandler {
+	private final XBoard plugin;
 	private final BukkitConfigurationHandler configurationHandler;
 	private final Map<UUID, FastBoard> scoreboards;
 	private final Map<UUID, BukkitTask> tasks;
 	private final BukkitScheduler scheduler;
 	
-	public ScoreboardHandlerImpl(@NotNull BukkitConfigurationHandler configurationHandler) {
+	public ScoreboardHandlerImpl(
+		 @NotNull XBoard plugin,
+		 @NotNull BukkitConfigurationHandler configurationHandler
+	) {
+		this.plugin = Objects.requireNonNull(plugin, "The XBoard instance is null.");
 		this.configurationHandler = Objects.requireNonNull(configurationHandler, "The BukkitConfigurationHandler instance is null.");
 		this.scoreboards = new HashMap<>();
 		this.tasks = new HashMap<>();
@@ -96,9 +101,14 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 						 if (!player.getWorld().getName().equals(world)) return;
 						
 						 final FastBoard board = new FastBoard(player);
+						 board.updateTitle(TextUtils.parse(player, configurationHandler.text(File.CONFIG,
+									 "config.scoreboard.title",
+									 null)
+							  .replace("<release>", plugin.release)));
+						 
 						 final UUID playerId = player.getUniqueId();
 						 scoreboards.put(playerId, board);
-						 tasks.put(playerId, scheduler.runTaskTimerAsynchronously(XBoard.instance(), () -> {
+						 tasks.put(playerId, scheduler.runTaskTimerAsynchronously(plugin, () -> {
 							 board.updateLines(TextUtils.parse(player, configurationHandler.text(File.CONFIG,
 										 "config.scoreboard.body.lines",
 										 null))
