@@ -100,13 +100,13 @@ public final class ScoreboardCommand implements CommandExecutor {
 									"messages.scoreboard-title",
 									"messages.yml")
 								.replace("<status>", configurationHandler.text(File.CUSTOM,
-									"messages.disabled",
+									"messages.enabled",
 									"messages.yml"))),
 							TextUtils.parse(player, configurationHandler.text(File.CUSTOM,
 									"messages.scoreboard-subtitle",
 									"messages.yml")
 								.replace("<status>", configurationHandler.text(File.CUSTOM,
-									"messages.disabled",
+									"messages.enabled",
 									"messages.yml"))));
 					} else {
 						player.playSound(player.getLocation(),
@@ -138,13 +138,13 @@ public final class ScoreboardCommand implements CommandExecutor {
 								"messages.scoreboard-title",
 								"messages.yml")
 								.replace("<status>", configurationHandler.text(File.CUSTOM,
-									"messages.enabled",
+									"messages.disabled",
 									"messages.yml"))),
 							TextUtils.parse(player, configurationHandler.text(File.CUSTOM,
 									"messages.scoreboard-subtitle",
 									"messages.yml")
 								.replace("<status>", configurationHandler.text(File.CUSTOM,
-									"messages.enabled",
+									"messages.disabled",
 									"messages.yml"))));
 					}
 					break;
