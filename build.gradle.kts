@@ -19,10 +19,12 @@ repositories {
 
 dependencies {
 	compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
+	compileOnly("net.md-5:bungeecord-chat:1.16-R0.4")
 	
 	compileOnly("me.clip:placeholderapi:2.11.2")
 	implementation("fr.mrmicky:fastboard:1.2.1")
 	implementation("com.github.InitSync:XConfig:1.0.2")
+	implementation("com.github.cryptomorin:XSeries:9.1.0")
 	
 	implementation("commons-lang:commons-lang:2.6")
 	implementation("org.jetbrains:annotations:23.0.0")
@@ -71,6 +73,7 @@ tasks {
 		relocate("org.jetbrains.annotations", "$libs.annotations")
 		relocate("fr.mrmicky.fastboard", "$libs.fastboard")
 		relocate("net.xconfig", "$libs.xconfig")
+		relocate("com.cryptomorin.xseries", "$libs.xseries")
 	}
 	
 	withType<JavaCompile> {
