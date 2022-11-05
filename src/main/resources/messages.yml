@@ -8,7 +8,7 @@ messages:
     - "&d[XBoard] &7v<release> &8| &fAvailable Commands:"
     - "&7 - &a/xboard help &fShows this message."
     - "&7 - &a/xboard reload &fReload the files."
-    - "&7 - &a/scoreboard &fToggle the Scoreboard visibility."
+    - "&7 - &a/scoreboard &fModify some scoreboard aspects."
 
   reload-all: "<prefix> &e&lALL FILES RELOADED! &fThe plugin has been reloaded successful!"
   reload-config: "<prefix> &a&lCONFIGURATION RELOADED! &fThe file has been reloaded successful!"
@@ -17,7 +17,10 @@ messages:
   enabled: "&aVisible"
   disabled: "&cInvisible"
 
+  scoreboard-usage: "<prefix> &fScoreboard sub-commands:<br>&7 - &etoggle &fToggle the visibility.<br>&7 - &etitle &fChanges the title."
   scoreboard-on: "<prefix> &a&lSCOREBOARD ENABLED! &fThe scoreboard now is visible."
   scoreboard-off: "<prefix> &c&lSCOREBOARD DISABLED! &fThe scoreboard isn't visible."
   scoreboard-title: "&d&lSCOREBOARD"
   scoreboard-subtitle: "&fThe &7Scoreboard &fnow is <status>"
+  scoreboard-title-usage: "<prefix> &eIntroduce a new title for the Scoreboard, can use colors!"
+  scoreboard-title-changed: "<prefix> &eThe title of your Scoreboard was changed to <new_title>"
