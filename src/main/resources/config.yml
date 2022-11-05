@@ -41,14 +41,15 @@ config:
       # Scoreboard Body Lines.
       lines: |-
         &l
-        &7• &fNick: &6%player_name%
-        &7• &fRank: %vault_prefix%
-        &7• &fLevel: &b%player_level%
+        &6&l INFORMATION
+        &7 • &fNick: &6%player_name%
+        &7 • &fRank: %vault_prefix%
+        &7 • &fLevel: &b%player_level%
         &l
-        &6&lINFORMATION
+        &9&l SERVER
         &l
-        &7  • &fServer: &eLobby #1
-        &7  • &fConnected: &a%server_online%
-        &7  • &fGlobal: &a%bungee_global%
+        &7 • &fServer: &eLobby
+        &7 • &fConnected: &a%server_online%
+        &7 • &fGlobal: &a%bungee_global%
         &l
-        &b mc.yourServer.net
+        &a  mc.yourServer.net
