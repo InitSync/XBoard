@@ -30,6 +30,32 @@ public final class XBoard extends JavaPlugin {
 		return instance;
 	}
 	
+	/**
+	 * Returns the BukkitConfigurationModel object if this isn't null, overwise, will be throws an
+	 * IllegalStateException.
+	 *
+	 * @return A BukkitConfigurationModel object.
+	 */
+	public @NotNull BukkitConfigurationModel configurationManager() {
+		if (this.configurationManager == null) {
+			throw new IllegalStateException("Cannot access to the BukkitConfigurationModel object.");
+		}
+		return this.configurationManager;
+	}
+	
+	/**
+	 * If the BukkitConfigurationHandler object is null will be throws an IllegalStateException,
+	 * overwise, return it.
+	 *
+	 * @return A BukkitConfigurationHandler object.
+	 */
+	public @NotNull BukkitConfigurationHandler configurationHandler() {
+		if (this.configurationHandler == null) {
+			throw new IllegalStateException("Cannot access to the BukkitConfigurationHandler object.");
+		}
+		return this.configurationHandler;
+	}
+	
 	@Override
 	public void onEnable() {
 		final long startTime = System.currentTimeMillis();
