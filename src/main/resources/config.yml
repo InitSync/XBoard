@@ -1,0 +1,71 @@
+config:
+  # Plugin Messages Prefix.
+  prefix: "&d[XBoard]"
+
+  sounds:
+    # Sounds ID's.
+    no-perm: ENTITY_ITEM_BREAK
+    reload: UI_BUTTON_CLICK
+    scoreboard: ENTITY_EXPERIENCE_ORB_PICKUP
+
+    # Sounds Volume.
+    volume-level: 1
+
+  titles:
+    # In coming time.
+    fade-in: 20
+
+    # Staying time.
+    stay: 60
+
+    # Outing time.
+    fade-out: 20
+
+  scoreboard:
+    # Allow show the scoreboard to player?
+    allow: true
+
+    # Use the worlds list as a whitelist?
+    as-whitelist: false
+
+    # Worlds list where the scoreboard can/can't appear.
+    worlds:
+      - world1
+      - world2
+      - world3
+
+    title:
+      # Do you want use the animated-title?
+      allow-animated-title: true
+
+      # Update rate for the animated-title.
+      update-rate: 7
+
+      # Default title for the scoreboard when the animated-title isn't enabled.
+      default: "&d[XBoard] &8- &7<release>"
+
+      # Animated-Title lines.
+      lines:
+        - "&d[XBoard] &8- &7<release>"
+        - "&b[XBoard] &8- &7<release>"
+        - "&e[XBoard] &8- &7<release>"
+        - "&6[XBoard] &8- &7<release>"
+
+    body:
+      # Update rate for the body. (Scoreboard Lines)
+      update-rate: 20
+
+      # Scoreboard Body Lines.
+      lines: |-
+        &l
+        &7• &fNick: &6%player_name%
+        &7• &fRank: %vault_prefix%
+        &7• &fLevel: &b%player_level%
+        &l
+        &6&lINFORMATION
+        &l
+        &7  • &fServer: &eLobby #1
+        &7  • &fConnected: &a%server_online%
+        &7  • &fGlobal: &a%bungee_global%
+        &l
+        &bmc.yourServer.net

@@ -1,0 +1,23 @@
+messages:
+  no-console: "<prefix> &cThat command can't be executed in console!"
+  no-perm: "<prefix> &cYou don't have permission!"
+  no-command: "<prefix> &cThat command has not been implemented yet!"
+  no-file: "<prefix> &cThat file doesn't exist or the name isn't valid!"
+
+  help:
+    - "&d[XBoard] &7v<release> &8| &fAvailable Commands:"
+    - "&7 - &a/xboard help &fShows this message."
+    - "&7 - &a/xboard reload &fReload the files."
+    - "&7 - &a/scoreboard &fToggle the Scoreboard visibility."
+
+  reload-all: "<prefix> &e&lALL FILES RELOADED! &fThe plugin has been reloaded successful!"
+  reload-config: "<prefix> &a&lCONFIGURATION RELOADED! &fThe file has been reloaded successful!"
+  reload-messages: "<prefix> &a&lMESSAGES RELOADED! &fThe file has been reloaded successful!"
+
+  enabled: "&aVisible"
+  disabled: "&cInvisible"
+
+  scoreboard-on: "<prefix> &a&lSCOREBOARD ENABLED! &fThe scoreboard now is visible."
+  scoreboard-off: "<prefix> &c&lSCOREBOARD DISABLED! &fThe scoreboard isn't visible."
+  scoreboard-title: "&d&lSCOREBOARD"
+  scoreboard-subtitle: "&fThe &7Scoreboard &fnow is <status>"
