@@ -130,6 +130,8 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	public void remove(@NotNull UUID uuid) {
 		Objects.requireNonNull(uuid, "The uuid is null.");
 		
+		if (!scoreboards.containsKey(uuid) || !tasks.containsKey(uuid)) return;
+		
 		final FastBoard board = scoreboards.remove(uuid);
 		if (!board.isDeleted()) {
 			tasks.remove(uuid).cancel();
