@@ -25,11 +25,11 @@ config:
     # Allow show the scoreboard to player?
     allow: true
 
-    # Worlds list where the scoreboard can/can't appear.
+    # Worlds list where the scoreboard can appear.
     worlds:
-      - world1
-      - world2
-      - world3
+      - world
+      - world_nether
+      - world_the_end
 
     # Title for each Scoreboard.
     title: "&d[XBoard] &8- &7<release>"
@@ -51,4 +51,4 @@ config:
         &7  • &fConnected: &a%server_online%
         &7  • &fGlobal: &a%bungee_global%
         &l
-        &bmc.yourServer.net
+        &b mc.yourServer.net
