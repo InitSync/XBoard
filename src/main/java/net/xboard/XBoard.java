@@ -1,5 +1,6 @@
 package net.xboard;
 
+import net.xboard.commands.ScoreboardCommand;
 import net.xboard.listeners.ScoreboardListener;
 import net.xboard.scoreboard.ScoreboardHandler;
 import net.xboard.services.HandlerService;
@@ -43,44 +44,6 @@ public final class XBoard extends JavaPlugin {
 		return instance;
 	}
 	
-	/**
-	 * Returns the BukkitConfigurationModel object if this isn't null, overwise, will be throws an
-	 * IllegalStateException.
-	 *
-	 * @return A BukkitConfigurationModel object.
-	 */
-	public @NotNull BukkitConfigurationModel configurationManager() {
-		if (configurationManager == null) {
-			throw new IllegalStateException("Cannot access to the BukkitConfigurationModel object.");
-		}
-		return configurationManager;
-	}
-	
-	/**
-	 * If the BukkitConfigurationHandler object is null will be throws an IllegalStateException,
-	 * overwise, return it.
-	 *
-	 * @return A BukkitConfigurationHandler object.
-	 */
-	public @NotNull BukkitConfigurationHandler configurationHandler() {
-		if (configurationHandler == null) {
-			throw new IllegalStateException("Cannot access to the BukkitConfigurationHandler object.");
-		}
-		return configurationHandler;
-	}
-	
-	/**
-	 * Returns the ScoreboardHandler object, if is null, will be return null.
-	 *
-	 * @return A ScoreboardHandler object.
-	 */
-	public @NotNull ScoreboardHandler scoreboardHandler() {
-		if (scoreboardHandler == null) {
-			throw new IllegalStateException("Cannot get the ScoreboardHandler object because is null.");
-		}
-		return scoreboardHandler;
-	}
-	
 	@Override
 	public void onEnable() {
 		final long startTime = System.currentTimeMillis();
@@ -91,6 +54,11 @@ public final class XBoard extends JavaPlugin {
 		configurationManager.load("config.yml", "messages.yml");
 		
 		getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboardHandler), this);
+		
+		HandlerService.commandLoader(this)
+			.command("scoreboard")
+			.executor(new ScoreboardCommand(configurationHandler, scoreboardHandler))
+			.register();
 		
 		LogPrinter.info("Started plugin successfully in '" + (System.currentTimeMillis() - startTime) + "'ms.",
 			 "Running with [" + Bukkit.getVersion() + "]",
