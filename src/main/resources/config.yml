@@ -42,6 +42,7 @@ config:
       lines: |-
         &l
         &6&l INFORMATION
+        &l
         &7 • &fNick: &6%player_name%
         &7 • &fRank: %vault_prefix%
         &7 • &fLevel: &b%player_level%
