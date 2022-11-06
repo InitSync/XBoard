@@ -2,6 +2,8 @@ package net.xboard;
 
 import net.xboard.commands.MainCommand;
 import net.xboard.commands.ScoreboardCommand;
+import net.xboard.commands.completers.MainCompleter;
+import net.xboard.commands.completers.ScoreboardCompleter;
 import net.xboard.listeners.ScoreboardListener;
 import net.xboard.scoreboard.ScoreboardHandler;
 import net.xboard.services.HandlerService;
@@ -61,8 +63,11 @@ public final class XBoard extends JavaPlugin {
 		HandlerService.commandLoader(this)
 			.command("xboard")
 			.executor(new MainCommand(configurationHandler, scoreboardHandler))
+			.completer(new MainCompleter())
+			.register()
 			.command("scoreboard")
 			.executor(new ScoreboardCommand(configurationHandler, scoreboardHandler))
+			.completer(new ScoreboardCompleter())
 			.register();
 		
 		LogPrinter.info("Started plugin successfully in '" + (System.currentTimeMillis() - startTime) + "'ms.",
