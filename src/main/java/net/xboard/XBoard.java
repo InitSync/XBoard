@@ -42,6 +42,11 @@ public final class XBoard extends JavaPlugin {
 		scoreboardHandler = HandlerService.scoreboardHandler(this, configurationHandler);
 	}
 	
+	/**
+	 * Returns the 'instance' static field, if it is null, will be throws an IllegalStateException.
+	 *
+	 * @return A XBoard instance.
+	 */
 	public static @NotNull XBoard instance() {
 		if (instance == null) {
 			throw new IllegalStateException("Cannot access to the XBoard instance.");
