@@ -41,7 +41,7 @@ public final class ScoreboardCompleter implements TabCompleter {
 		if (args.length == 1) {
 			for (String result : scoreboardArgs) {
 				if (result.toLowerCase().startsWith(args[0].toLowerCase())) results.add(result);
- 			}
+			}
 			return results;
 		}
 		return null;
