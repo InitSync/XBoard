@@ -7,7 +7,6 @@ import net.xboard.enums.Permission;
 import net.xboard.scoreboard.ScoreboardHandler;
 import net.xboard.utils.TextUtils;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
-import net.xconfig.enums.File;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,18 +35,14 @@ public final class ScoreboardCommand implements CommandExecutor {
 		@NotNull String label,
 		@NotNull String[] args
 	) {
-		final String prefix = configurationHandler.text(
-			File.CONFIG,
-			"config.prefix",
-			null);
+		final String prefix = configurationHandler.text("config.yml", "config.prefix");
 		
 		if (!(sender instanceof Player) && !(sender instanceof ConsoleCommandSender)) return false;
 		
 		if (sender instanceof ConsoleCommandSender) {
-			sender.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-				"messages.no-console",
-				"messages.yml")
-				.replace("<prefix>", prefix)));
+			sender.sendMessage(TextUtils.colorize(
+				configurationHandler.text("messages.yml", "messages.no-console")
+					.replace("<prefix>", prefix)));
 			return false;
 		}
 		
@@ -55,105 +50,66 @@ public final class ScoreboardCommand implements CommandExecutor {
 		
 		if (player.hasPermission(Permission.SCOREBOARD_CMD.getPerm())) {
 			if (args.length == 0) {
-				player.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-					"messages.scoreboard-usage",
-					"messages.yml")
-					.replace("<prefix>", prefix)));
+				player.sendMessage(TextUtils.colorize(
+					configurationHandler.text("messages.yml", "messages.scoreboard-usage")
+						.replace("<prefix>", prefix)));
 				return false;
 			}
 			
 			switch (args[0]) {
 				default:
-					player.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-						"messages.no-command",
-						"messages.yml")
-						.replace("<prefix>", prefix)));
+					player.sendMessage(TextUtils.colorize(
+						configurationHandler.text("messages.yml", "messages.no-command")
+							.replace("<prefix>", prefix)));
 					break;
 				case "toggle":
 					if (scoreboardHandler.toggle(player)) {
 						player.playSound(player.getLocation(),
-							XSound.matchXSound(configurationHandler.text(File.CONFIG,
-								"config.sounds.no-perm",
-								null)).get().parseSound(),
-							configurationHandler.number(File.CONFIG,
-								"config.sounds.volume-level",
-								null),
-							configurationHandler.number(File.CONFIG,
-								"config.sounds.volume-level",
-								null));
-						player.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-							"messages.scoreboard-on",
-							"messages.yml")
-							.replace("<prefix>", prefix)));
+							XSound.matchXSound(configurationHandler.text("config.yml", "config.sounds.scoreboard"))
+								.get()
+								.parseSound(),
+							configurationHandler.number("config.yml", "config.sounds.volume-level"),
+							configurationHandler.number("config.yml", "config.sounds.volume-level"));
+						player.sendMessage(TextUtils.colorize(
+							configurationHandler.text("messages.yml", "messages.scoreboard-on")
+								.replace("<prefix>", prefix)));
 						
 						Titles.sendTitle(player,
-							configurationHandler.number(File.CONFIG,
-								"config.titles.fade-in",
-								null),
-							configurationHandler.number(File.CONFIG,
-								"config.titles.stay",
-								null),
-							configurationHandler.number(File.CONFIG,
-								"config.titles.fade-out",
-								null),
-							TextUtils.parse(player, configurationHandler.text(File.CUSTOM,
-									"messages.scoreboard-title",
-									"messages.yml")
-								.replace("<status>", configurationHandler.text(File.CUSTOM,
-									"messages.enabled",
-									"messages.yml"))),
-							TextUtils.parse(player, configurationHandler.text(File.CUSTOM,
-									"messages.scoreboard-subtitle",
-									"messages.yml")
-								.replace("<status>", configurationHandler.text(File.CUSTOM,
-									"messages.enabled",
-									"messages.yml"))));
+							configurationHandler.number("config.yml", "config.titles.fade-in"),
+							configurationHandler.number("config.yml", "config.titles.stay"),
+							configurationHandler.number("config.yml", "config.titles.fade-out"),
+							TextUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-title")
+								.replace("<status>", configurationHandler.text("messages.yml", "messages.enabled"))),
+							TextUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-subtitle")
+								.replace("<status>", configurationHandler.text("messages.yml", "messages.enabled"))));
 					} else {
-						player.playSound(player.getLocation(),
-							XSound.matchXSound(configurationHandler.text(File.CONFIG,
-								"config.sounds.scoreboard",
-								null)).get().parseSound(),
-							configurationHandler.number(File.CONFIG,
-								"config.sounds.volume-level",
-								null),
-							configurationHandler.number(File.CONFIG,
-								"config.sounds.volume-level",
-								null));
-						player.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-							"messages.scoreboard-off",
-							"messages.yml")
-							.replace("<prefix>", prefix)));
+						player.playSound(
+							player.getLocation(),
+							XSound.matchXSound(configurationHandler.text("config.yml", "config.sounds.scoreboard"))
+								.get()
+								.parseSound(),
+							configurationHandler.number("config.yml", "config.sounds.volume-level"),
+							configurationHandler.number("config.yml", "config.sounds.volume-level"));
+						player.sendMessage(TextUtils.colorize(
+							configurationHandler.text("messages.yml", "messages.scoreboard-off")
+								.replace("<prefix>", prefix)));
 						
 						Titles.sendTitle(player,
-							configurationHandler.number(File.CONFIG,
-								"config.titles.fade-in",
-								null),
-							configurationHandler.number(File.CONFIG,
-								"config.titles.stay",
-								null),
-							configurationHandler.number(File.CONFIG,
-								"config.titles.fade-out",
-								null),
-							TextUtils.parse(player, configurationHandler.text(File.CUSTOM,
-								"messages.scoreboard-title",
-								"messages.yml")
-								.replace("<status>", configurationHandler.text(File.CUSTOM,
-									"messages.disabled",
-									"messages.yml"))),
-							TextUtils.parse(player, configurationHandler.text(File.CUSTOM,
-									"messages.scoreboard-subtitle",
-									"messages.yml")
-								.replace("<status>", configurationHandler.text(File.CUSTOM,
-									"messages.disabled",
-									"messages.yml"))));
+							configurationHandler.number("config.yml", "config.titles.fade-in"),
+							configurationHandler.number("config.yml", "config.titles.stay"),
+							configurationHandler.number("config.yml", "config.titles.fade-out"),
+							TextUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-title")
+								.replace("<status>", configurationHandler.text("messages.yml", "messages.disabled"))),
+							TextUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-subtitle")
+								.replace("<status>", configurationHandler.text("messages.yml", "messages.disabled")))
+						);
 					}
 					break;
 				case "title":
 					if (args.length == 1) {
-						player.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-								"messages.scoreboard-title-usage",
-								"messages.yml")
-							.replace("<prefix>", prefix)));
+						player.sendMessage(TextUtils.colorize(
+							configurationHandler.text("messages.yml", "messages.scoreboard-title-usage")
+								.replace("<prefix>", prefix)));
 						return false;
 					}
 					
@@ -163,28 +119,22 @@ public final class ScoreboardCommand implements CommandExecutor {
 					final String newTitle = TextUtils.parse(player, args[1]);
 					playerScoreboard.updateTitle(newTitle);
 					
-					player.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-							"messages.scoreboard-title-changed",
-							"messages.yml")
-						.replace("<prefix>", prefix)
-						.replace("<new_title>", newTitle)));
+					player.sendMessage(TextUtils.colorize(
+						configurationHandler.text("config.yml", "messages.scoreboard-title-changed")
+							.replace("<prefix>", prefix)
+							.replace("<new_title>", newTitle)));
 					break;
 			}
 		} else {
 			player.playSound(player.getLocation(),
-				XSound.matchXSound(configurationHandler.text(File.CONFIG,
-					"config.sounds.no-perm",
-					null)).get().parseSound(),
-				configurationHandler.number(File.CONFIG,
-					"config.sounds.volume-level",
-					null),
-				configurationHandler.number(File.CONFIG,
-					"config.sounds.volume-level",
-					null));
-			player.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
-				"messages.no-perm",
-				"messages.yml")
-				.replace("<prefix>", prefix)));
+				XSound.matchXSound(configurationHandler.text("config.yml", "config.sounds.no-perm"))
+					.get()
+					.parseSound(),
+				configurationHandler.number("config.yml", "config.sounds.volume-level"),
+				configurationHandler.number("config.yml", "config.sounds.volume-level"));
+			player.sendMessage(TextUtils.colorize(
+				configurationHandler.text("messages.yml", "messages.no-perm")
+					.replace("<prefix>", prefix)));
 		}
 		return false;
 	}

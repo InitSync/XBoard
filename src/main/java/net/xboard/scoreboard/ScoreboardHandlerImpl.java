@@ -5,7 +5,6 @@ import net.xboard.XBoard;
 import net.xboard.api.events.ScoreboardCreateEvent;
 import net.xboard.utils.TextUtils;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
-import net.xconfig.enums.File;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
@@ -87,32 +86,23 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 			.getPluginManager()
 			.callEvent(createEvent);
 		if (!createEvent.isCancelled()) {
-			if (configurationHandler.condition(File.CONFIG,
-				 "config.scoreboard.allow",
-				 null)
-			) {
-				configurationHandler.textList(File.CONFIG,
-							"config.scoreboard.worlds",
-							null)
+			if (configurationHandler.condition("config.yml", "config.scoreboard.allow")) {
+				configurationHandler.textList("config.yml", "config.scoreboard.worlds")
 					 .forEach(world -> {
 						 if (!player.getWorld().getName().equals(world)) return;
 						
 						 final FastBoard board = new FastBoard(player);
-						 board.updateTitle(TextUtils.parse(player, configurationHandler.text(File.CONFIG,
-									 "config.scoreboard.title",
-									 null)
-							  .replace("<release>", plugin.release)));
+						 board.updateTitle(TextUtils.parse(player,
+							 configurationHandler.text("config", "config.scoreboard.title")
+								 .replace("<release>", plugin.release)));
 						 
 						 final UUID playerId = player.getUniqueId();
 						 scoreboards.put(playerId, board);
 						 tasks.put(playerId, scheduler.runTaskTimerAsynchronously(plugin, () -> {
-							 board.updateLines(TextUtils.parse(player, configurationHandler.text(File.CONFIG,
-										 "config.scoreboard.body.lines",
-										 null))
-								  .split("\n"));
-						 }, 0L, configurationHandler.number(File.CONFIG,
-							  "config.scoreboard.body.update-rate",
-							  null)));
+							 board.updateLines(TextUtils.parse(player,
+									 configurationHandler.text("config.yml", "config.scoreboard.body.lines"))
+								 .split("\n"));
+						 }, 0L, configurationHandler.number("config.yml", "config.scoreboard.body.update-rate")));
 					 });
 			}
 		}
