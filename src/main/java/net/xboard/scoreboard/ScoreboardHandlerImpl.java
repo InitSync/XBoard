@@ -37,9 +37,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 		this.configurationHandler = Objects.requireNonNull(configurationHandler, "The BukkitConfigurationHandler instance is null.");
 		this.scoreboards = new HashMap<>();
 		this.tasks = new HashMap<>();
-		this.scheduler = XBoard.instance()
-			 .getServer()
-			 .getScheduler();
+		this.scheduler = plugin.getServer().getScheduler();
 	}
 	
 	/**
@@ -85,10 +83,9 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 		Objects.requireNonNull(player, "The player is null.");
 		
 		final ScoreboardCreateEvent createEvent = new ScoreboardCreateEvent(player);
-		XBoard.instance()
-			 .getServer()
-			 .getPluginManager()
-			 .callEvent(createEvent);
+		plugin.getServer()
+			.getPluginManager()
+			.callEvent(createEvent);
 		if (!createEvent.isCancelled()) {
 			if (configurationHandler.condition(File.CONFIG,
 				 "config.scoreboard.allow",
