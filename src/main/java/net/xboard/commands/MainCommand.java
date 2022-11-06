@@ -81,6 +81,8 @@ public final class MainCommand implements CommandExecutor {
 							null,
 							"messages.yml");
 						
+						Bukkit.getOnlinePlayers().forEach(scoreboardHandler::create);
+						
 						sender.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
 							"messages.reload-all",
 							"messages.yml")
@@ -104,6 +106,8 @@ public final class MainCommand implements CommandExecutor {
 								null,
 								null,
 								null);
+							
+							Bukkit.getOnlinePlayers().forEach(scoreboardHandler::create);
 							
 							sender.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
 								"messages.reload-config",
@@ -183,6 +187,8 @@ public final class MainCommand implements CommandExecutor {
 							null,
 							"messages.yml");
 						
+						Bukkit.getOnlinePlayers().forEach(scoreboardHandler::create);
+						
 						sender.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
 							"messages.reload-all",
 							"messages.yml")
@@ -206,6 +212,8 @@ public final class MainCommand implements CommandExecutor {
 								null,
 								null,
 								null);
+							
+							Bukkit.getOnlinePlayers().forEach(scoreboardHandler::create);
 							
 							sender.sendMessage(TextUtils.colorize(configurationHandler.text(File.CUSTOM,
 								"messages.reload-config",
