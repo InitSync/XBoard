@@ -54,6 +54,8 @@ public final class XBoard extends JavaPlugin {
 			 "messages.yml");
 		configurationManager.load("config.yml", "messages.yml");
 		
+		new Metrics(this, 16809);
+		
 		getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboardHandler), this);
 		
 		HandlerService.commandLoader(this)
