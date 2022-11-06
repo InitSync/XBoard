@@ -35,6 +35,8 @@ public final class XBoard extends JavaPlugin {
 	public XBoard() {
 		instance = this;
 		
+		new Metrics(this, 16809);
+		
 		configurationManager = ConfigurationService.bukkitManager(this);
 		configurationHandler = ConfigurationService.bukkitHandler(configurationManager);
 		scoreboardHandler = HandlerService.scoreboardHandler(this, configurationHandler);
@@ -55,8 +57,6 @@ public final class XBoard extends JavaPlugin {
 			 "config.yml",
 			 "messages.yml");
 		configurationManager.load("config.yml", "messages.yml");
-		
-		new Metrics(this, 16809);
 		
 		getServer().getPluginManager().registerEvents(new ScoreboardListener(scoreboardHandler), this);
 		
