@@ -86,7 +86,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 						
 						 final FastBoard board = new FastBoard(player);
 						 board.updateTitle(TextUtils.parse(player,
-							 configurationHandler.text("config", "config.scoreboard.title")
+							 configurationHandler.text("config.yml", "config.scoreboard.title")
 								 .replace("<release>", plugin.release)));
 						 
 						 final UUID playerId = player.getUniqueId();
