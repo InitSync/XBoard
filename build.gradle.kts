@@ -23,11 +23,10 @@ dependencies {
 	
 	compileOnly("me.clip:placeholderapi:2.11.2")
 	implementation("fr.mrmicky:fastboard:1.2.1")
-	implementation("com.github.InitSync:XConfig:1.0.3")
+	implementation("com.github.InitSync:XConfig:1.0.4")
 	implementation("com.github.cryptomorin:XSeries:9.1.0")
 	
 	implementation("commons-lang:commons-lang:2.6")
-	implementation("org.jetbrains:annotations:23.0.0")
 }
 
 bukkit {
@@ -70,7 +69,6 @@ tasks {
 		minimize()
 		
 		relocate("org.apache.commons", "$libs.commons")
-		relocate("org.jetbrains.annotations", "$libs.annotations")
 		relocate("fr.mrmicky.fastboard", "$libs.fastboard")
 		relocate("net.xconfig", "$libs.xconfig")
 		relocate("com.cryptomorin.xseries", "$libs.xseries")
