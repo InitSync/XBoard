@@ -13,7 +13,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -21,20 +20,17 @@ public final class MainCommand implements CommandExecutor {
 	private final BukkitConfigurationHandler configurationHandler;
 	private final ScoreboardHandler scoreboardHandler;
 	
-	public MainCommand(
-		@NotNull BukkitConfigurationHandler configurationHandler,
-		@NotNull ScoreboardHandler scoreboardHandler
-	) {
+	public MainCommand(BukkitConfigurationHandler configurationHandler, ScoreboardHandler scoreboardHandler) {
 		this.configurationHandler = Objects.requireNonNull(configurationHandler, "The BukkitConfigurationHandler object is null.");
 		this.scoreboardHandler = Objects.requireNonNull(scoreboardHandler, "The ScoreboardHandler object is null.");
 	}
 	
 	@Override
 	public boolean onCommand(
-		@NotNull CommandSender sender,
-		@NotNull Command command,
-		@NotNull String label,
-		@NotNull String[] args
+		CommandSender sender,
+		Command command,
+		String label,
+		String[] args
 	) {
 		final String prefix = configurationHandler.text("config.yml", "config.prefix");
 		final String version = XBoard.instance().release;

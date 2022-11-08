@@ -5,9 +5,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.xboard.XBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,9 +36,7 @@ public final class TextUtils {
 	 * @param text Text to parse.
 	 * @return Text parsed with the placeholders.
 	 */
-	public static @NotNull String parse(@NotNull Player player, @NotNull String text) {
-		Objects.requireNonNull(player, "The player is null.");
-		
+	public static String parse(Player player, String text) {
 		if (!PLACEHOLDERS) return colorize(text);
 		
 		return colorize(PlaceholderAPI.setPlaceholders(player, text));
@@ -57,7 +53,7 @@ public final class TextUtils {
 	 * @param text Text to colorize.
 	 * @return Parsed and colorized text.
 	 */
-	public static @NotNull String colorize(@NotNull String text) {
+	public static String colorize(String text) {
 		text = text.replace("<br>", "\n");
 		
 		if (VERSION < 16) return ChatColor.translateAlternateColorCodes('&', text);

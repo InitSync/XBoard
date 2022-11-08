@@ -1,7 +1,5 @@
 package net.xboard.enums;
 
-import org.jetbrains.annotations.NotNull;
-
 public enum Permission {
 	HELP_CMD ("xboard.help"),
 	RELOAD_CMD ("xboard.reload"),
@@ -13,7 +11,7 @@ public enum Permission {
 		this.perm = perm;
 	}
 	
-	public @NotNull String getPerm() {
+	public String getPerm() {
 		return perm;
 	}
 }

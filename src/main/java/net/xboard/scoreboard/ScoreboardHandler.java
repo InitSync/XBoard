@@ -3,8 +3,6 @@ package net.xboard.scoreboard;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.UUID;
@@ -23,35 +21,35 @@ public interface ScoreboardHandler {
 	 * @param uuid Uuid of player.
 	 * @return A FastBoard object.
 	 */
-	@Nullable FastBoard getByUuid(@NotNull UUID uuid);
+	FastBoard getByUuid(UUID uuid);
 	
 	/**
 	 * Returns the Map that contains all the FastBoard objects (Scoreboards).
 	 *
 	 * @return A Map object.
 	 */
-	@NotNull Map<UUID, FastBoard> scoreboards();
+	Map<UUID, FastBoard> scoreboards();
 	
 	/**
 	 * Returns the Map that contains all the Scoreboard tasks.
 	 *
 	 * @return A Map object.
 	 */
-	@NotNull Map<UUID, BukkitTask> tasks();
+	Map<UUID, BukkitTask> tasks();
 	
 	/**
 	 * Creates a new scoreboard to player.
 	 *
 	 * @param player Player object.
 	 */
-	void create(@NotNull Player player);
+	void create(Player player);
 	
 	/**
 	 * Removes the scoreboard to player.
 	 *
 	 * @param uuid Uuid of player.
 	 */
-	void remove(@NotNull UUID uuid);
+	void remove(UUID uuid);
 	
 	/**
 	 * Toggles the scoreboard visibility.
@@ -59,5 +57,5 @@ public interface ScoreboardHandler {
 	 * @param player Player object.
 	 * @return A boolean value.
 	 */
-	boolean toggle(@NotNull Player player);
+	boolean toggle(Player player);
 }

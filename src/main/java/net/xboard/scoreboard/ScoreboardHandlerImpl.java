@@ -8,8 +8,6 @@ import net.xconfig.bukkit.config.BukkitConfigurationHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -28,10 +26,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	private final Map<UUID, BukkitTask> tasks;
 	private final BukkitScheduler scheduler;
 	
-	public ScoreboardHandlerImpl(
-		 @NotNull XBoard plugin,
-		 @NotNull BukkitConfigurationHandler configurationHandler
-	) {
+	public ScoreboardHandlerImpl(XBoard plugin, BukkitConfigurationHandler configurationHandler) {
 		this.plugin = Objects.requireNonNull(plugin, "The XBoard instance is null.");
 		this.configurationHandler = Objects.requireNonNull(configurationHandler, "The BukkitConfigurationHandler instance is null.");
 		this.scoreboards = new HashMap<>();
@@ -46,7 +41,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	 * @return A FastBoard object.
 	 */
 	@Override
-	public @Nullable FastBoard getByUuid(@NotNull UUID uuid) {
+	public FastBoard getByUuid(UUID uuid) {
 		Objects.requireNonNull(uuid, "The uuid is null.");
 		
 		return scoreboards.getOrDefault(uuid, null);
@@ -58,7 +53,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	 * @return A Map object.
 	 */
 	@Override
-	public @NotNull Map<UUID, FastBoard> scoreboards() {
+	public Map<UUID, FastBoard> scoreboards() {
 		return scoreboards;
 	}
 	
@@ -68,7 +63,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	 * @return A Map object.
 	 */
 	@Override
-	public @NotNull Map<UUID, BukkitTask> tasks() {
+	public Map<UUID, BukkitTask> tasks() {
 		return tasks;
 	}
 	
@@ -78,9 +73,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	 * @param player Player object.
 	 */
 	@Override
-	public void create(@NotNull Player player) {
-		Objects.requireNonNull(player, "The player is null.");
-		
+	public void create(Player player) {
 		final ScoreboardCreateEvent createEvent = new ScoreboardCreateEvent(player);
 		plugin.getServer()
 			.getPluginManager()
@@ -114,9 +107,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	 * @param uuid Uuid of player.
 	 */
 	@Override
-	public void remove(@NotNull UUID uuid) {
-		Objects.requireNonNull(uuid, "The uuid is null.");
-		
+	public void remove(UUID uuid) {
 		if (!scoreboards.containsKey(uuid) || !tasks.containsKey(uuid)) return;
 		
 		final FastBoard board = scoreboards.remove(uuid);
@@ -132,9 +123,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	 * @param player Player object.
 	 */
 	@Override
-	public boolean toggle(@NotNull Player player) {
-		Objects.requireNonNull(player, "The player is null.");
-		
+	public boolean toggle(Player player) {
 		final UUID playerId = player.getUniqueId();
 		
 		if (!scoreboards.containsKey(playerId) || !tasks.containsKey(playerId)) {
@@ -147,6 +136,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 			tasks.remove(playerId).cancel();
 			board.delete();
 		}
+		
 		return false;
 	}
 }

@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -23,8 +22,8 @@ public final class ScoreboardCreateEvent extends Event implements Cancellable {
 	
 	private boolean cancelled;
 	
-	public ScoreboardCreateEvent(@NotNull Player player) {
-		handlers = new HandlerList();
+	public ScoreboardCreateEvent(Player player) {
+		this.handlers = new HandlerList();
 		this.player = Objects.requireNonNull(player, "The player is null.");
 	}
 	
@@ -33,7 +32,7 @@ public final class ScoreboardCreateEvent extends Event implements Cancellable {
 	 *
 	 * @return A Player object.
 	 */
-	public @NotNull Player player() {
+	public Player player() {
 		return player;
 	}
 	
@@ -44,11 +43,11 @@ public final class ScoreboardCreateEvent extends Event implements Cancellable {
 	
 	@Override
 	public void setCancelled(boolean cancel) {
-		cancelled = cancel;
+		this.cancelled = cancel;
 	}
 	
 	@Override
-	public @NotNull HandlerList getHandlers() {
+	public HandlerList getHandlers() {
 		return handlers;
 	}
 }

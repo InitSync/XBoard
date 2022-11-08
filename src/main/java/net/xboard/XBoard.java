@@ -13,7 +13,6 @@ import net.xconfig.bukkit.config.BukkitConfigurationModel;
 import net.xconfig.services.ConfigurationService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Main Class.
@@ -47,7 +46,7 @@ public final class XBoard extends JavaPlugin {
 	 *
 	 * @return A XBoard instance.
 	 */
-	public static @NotNull XBoard instance() {
+	public static XBoard instance() {
 		if (instance == null) {
 			throw new IllegalStateException("Cannot access to the XBoard instance.");
 		}

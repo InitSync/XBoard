@@ -3,8 +3,6 @@ package net.xboard.commands.completers;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +23,11 @@ public final class ScoreboardCompleter implements TabCompleter {
 	}
 	
 	@Override
-	public @Nullable List<String> onTabComplete(
-		@NotNull CommandSender sender,
-		@NotNull Command command,
-		@NotNull String label,
-		@NotNull String[] args
+	public List<String> onTabComplete(
+		CommandSender sender,
+		Command command,
+		String label,
+		String[] args
 	) {
 		if (scoreboardArgs.isEmpty()) {
 			scoreboardArgs.add("toggle");

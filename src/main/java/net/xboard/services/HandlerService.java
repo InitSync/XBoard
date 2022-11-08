@@ -5,22 +5,16 @@ import net.xboard.loaders.CommandHandler;
 import net.xboard.scoreboard.ScoreboardHandlerImpl;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 public interface HandlerService {
 	/**
 	 * Returns a new instance of ScoreboardHandlerImpl object.
 	 *
-	 * @param plugin The XBoard instance.
-	 * @param configurationHandler A BukkitConfigurationHandler object.
+	 * @param plugin A XBoard instance.
+	 * @param configurationHandler A BukkitConfigurationHandler/Implementation object.
 	 * @return A ScoreboardHandlerImpl instance.
 	 */
-	@Contract ("_, _ -> new")
-	static @NotNull ScoreboardHandlerImpl scoreboardHandler(
-		 @NotNull XBoard plugin,
-		 @NotNull BukkitConfigurationHandler configurationHandler
-	) {
+	static ScoreboardHandlerImpl scoreboardHandler(XBoard plugin, BukkitConfigurationHandler configurationHandler) {
 		return new ScoreboardHandlerImpl(plugin, configurationHandler);
 	}
 	
@@ -30,8 +24,7 @@ public interface HandlerService {
 	 * @param plugin A JavaPlugin instance.
 	 * @return A CommandHandler.Builder object.
 	 */
-	@Contract (value = "_ -> new", pure = true)
-	static CommandHandler.@NotNull Builder commandLoader(@NotNull JavaPlugin plugin) {
+	static CommandHandler.Builder commandLoader(JavaPlugin plugin) {
 		return new CommandHandler.Builder(plugin);
 	}
 }

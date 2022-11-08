@@ -7,14 +7,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public final class ScoreboardListener implements Listener {
 	private final ScoreboardHandler scoreboardHandler;
 	
-	public ScoreboardListener(@NotNull ScoreboardHandler scoreboardHandler) {
+	public ScoreboardListener(ScoreboardHandler scoreboardHandler) {
 		this.scoreboardHandler = Objects.requireNonNull(scoreboardHandler, "The ScoreboardHandler object is null.");
 	}
 	

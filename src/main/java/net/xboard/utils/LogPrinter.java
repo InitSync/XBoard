@@ -1,7 +1,6 @@
 package net.xboard.utils;
 
 import net.xboard.XBoard;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -18,15 +17,15 @@ public final class LogPrinter {
 	
 	private LogPrinter() {}
 	
-	public static void info(String @NotNull... logs) {
+	public static void info(String... logs) {
 		Arrays.asList(logs).forEach(LOGGER::info);
 	}
 	
-	public static void warn(String @NotNull... logs) {
+	public static void warn(String... logs) {
 		Arrays.asList(logs).forEach(LOGGER::warning);
 	}
 	
-	public static void error(String @NotNull... logs) {
+	public static void error(String... logs) {
 		Arrays.asList(logs).forEach(LOGGER::severe);
 	}
 }
