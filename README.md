@@ -3,7 +3,7 @@
 # 🛠️ | Import
 If you're using a dependency manager such as Maven or Gradle. Or just import the library to BuildPath of your project.
 
-To get the jar, either download it from [GitHub](https://github.com/InitSync/XBoard/releases) or [Spigot](https://www.spigotmc.org/resources/xconfig.105977/). Or just [Build it locally](https://github.com/InitSync/XBoard#--build)
+To get the jar, either download it from [GitHub](https://github.com/InitSync/XBoard/releases) or [Spigot](https://www.spigotmc.org/resources/%E2%9C%A8xboard-customizable-and-asynchronous-scoreboards%E2%9C%A8-%E2%9C%85-1-8-1-19-2.106173/). Or just [Build it locally](https://github.com/InitSync/XBoard#--build)
 
 Gradle (Kotlin DSL)
 ```Gradle
