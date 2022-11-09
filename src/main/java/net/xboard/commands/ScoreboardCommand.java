@@ -116,7 +116,7 @@ public final class ScoreboardCommand implements CommandExecutor {
 					playerScoreboard.updateTitle(newTitle);
 					
 					player.sendMessage(TextUtils.colorize(
-						configurationHandler.text("config.yml", "messages.scoreboard-title-changed")
+						configurationHandler.text("messages.yml", "messages.scoreboard-title-changed")
 							.replace("<prefix>", prefix)
 							.replace("<new_title>", newTitle)));
 					break;
