@@ -5,8 +5,9 @@ import com.cryptomorin.xseries.messages.Titles;
 import fr.mrmicky.fastboard.FastBoard;
 import net.xboard.enums.Permission;
 import net.xboard.scoreboard.ScoreboardHandler;
-import net.xboard.utils.TextUtils;
+import net.xboard.utils.PlaceholderUtils;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
+import net.xconfig.bukkit.utils.TextUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -74,9 +75,9 @@ public final class ScoreboardCommand implements CommandExecutor {
 							configurationHandler.number("config.yml", "config.titles.fade-in"),
 							configurationHandler.number("config.yml", "config.titles.stay"),
 							configurationHandler.number("config.yml", "config.titles.fade-out"),
-							TextUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-title")
+							PlaceholderUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-title")
 								.replace("<status>", configurationHandler.text("messages.yml", "messages.enabled"))),
-							TextUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-subtitle")
+							PlaceholderUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-subtitle")
 								.replace("<status>", configurationHandler.text("messages.yml", "messages.enabled"))));
 					} else {
 						player.playSound(
@@ -94,14 +95,21 @@ public final class ScoreboardCommand implements CommandExecutor {
 							configurationHandler.number("config.yml", "config.titles.fade-in"),
 							configurationHandler.number("config.yml", "config.titles.stay"),
 							configurationHandler.number("config.yml", "config.titles.fade-out"),
-							TextUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-title")
+							PlaceholderUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-title")
 								.replace("<status>", configurationHandler.text("messages.yml", "messages.disabled"))),
-							TextUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-subtitle")
+							PlaceholderUtils.parse(player, configurationHandler.text("messages.yml", "messages.scoreboard-subtitle")
 								.replace("<status>", configurationHandler.text("messages.yml", "messages.disabled")))
 						);
 					}
 					break;
 				case "title":
+					if (configurationHandler.condition("config.yml", "config.scoreboard.allow-animated-title")) {
+						player.sendMessage(TextUtils.colorize(
+							configurationHandler.text("messages.yml", "messages.scoreboard-title-error")
+								.replace("<prefix>", prefix)));
+						return false;
+					}
+					
 					if (args.length == 1) {
 						player.sendMessage(TextUtils.colorize(
 							configurationHandler.text("messages.yml", "messages.scoreboard-title-usage")
@@ -112,7 +120,7 @@ public final class ScoreboardCommand implements CommandExecutor {
 					final FastBoard playerScoreboard = scoreboardHandler.getByUuid(player.getUniqueId());
 					if (playerScoreboard == null) return false;
 					
-					final String newTitle = TextUtils.parse(player, args[1]);
+					final String newTitle = PlaceholderUtils.parse(player, args[1]);
 					playerScoreboard.updateTitle(newTitle);
 					
 					player.sendMessage(TextUtils.colorize(
