@@ -3,10 +3,11 @@ package net.xboard.scoreboard;
 import fr.mrmicky.fastboard.FastBoard;
 import net.xboard.XBoard;
 import net.xboard.api.events.ScoreboardCreateEvent;
-import net.xboard.utils.TextUtils;
+import net.xboard.scoreboard.tasks.TitleUpdateTask;
+import net.xboard.utils.PlaceholderUtils;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
@@ -15,7 +16,7 @@ import java.util.*;
  * Implementation of ScoreboardHandler that handles internally the players Scoreboards.
  *
  * @author InitSync
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  * @see net.xboard.scoreboard.ScoreboardHandler
  */
@@ -23,15 +24,15 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	private final XBoard plugin;
 	private final BukkitConfigurationHandler configurationHandler;
 	private final Map<UUID, FastBoard> scoreboards;
-	private final Map<UUID, BukkitTask> tasks;
-	private final BukkitScheduler scheduler;
+	private final Map<UUID, BukkitTask> scoreboardTasks;
+	private final Map<UUID, BukkitTask> titleTasks;
 	
 	public ScoreboardHandlerImpl(XBoard plugin, BukkitConfigurationHandler configurationHandler) {
 		this.plugin = Objects.requireNonNull(plugin, "The XBoard instance is null.");
 		this.configurationHandler = Objects.requireNonNull(configurationHandler, "The BukkitConfigurationHandler instance is null.");
 		this.scoreboards = new HashMap<>();
-		this.tasks = new HashMap<>();
-		this.scheduler = plugin.getServer().getScheduler();
+		this.scoreboardTasks = new HashMap<>();
+		this.titleTasks = new HashMap<>();
 	}
 	
 	/**
@@ -42,29 +43,7 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	 */
 	@Override
 	public FastBoard getByUuid(UUID uuid) {
-		Objects.requireNonNull(uuid, "The uuid is null.");
-		
 		return scoreboards.getOrDefault(uuid, null);
-	}
-	
-	/**
-	 * Returns the Map that contains all the FastBoard objects (Scoreboards).
-	 *
-	 * @return A Map object.
-	 */
-	@Override
-	public Map<UUID, FastBoard> scoreboards() {
-		return scoreboards;
-	}
-	
-	/**
-	 * Returns the Map that contains all the Scoreboard tasks.
-	 *
-	 * @return A Map object.
-	 */
-	@Override
-	public Map<UUID, BukkitTask> tasks() {
-		return tasks;
 	}
 	
 	/**
@@ -85,17 +64,27 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 						 if (!player.getWorld().getName().equals(world)) return;
 						
 						 final FastBoard board = new FastBoard(player);
-						 board.updateTitle(TextUtils.parse(player,
-							 configurationHandler.text("config.yml", "config.scoreboard.title")
-								 .replace("<release>", plugin.release)));
-						 
 						 final UUID playerId = player.getUniqueId();
 						 scoreboards.put(playerId, board);
-						 tasks.put(playerId, scheduler.runTaskTimerAsynchronously(plugin, () -> {
-							 board.updateLines(TextUtils.parse(player,
-									 configurationHandler.text("config.yml", "config.scoreboard.body.lines"))
-								 .split("\n"));
-						 }, 0L, configurationHandler.number("config.yml", "config.scoreboard.body.update-rate")));
+						 
+						 if (configurationHandler.condition("config.yml", "config.scoreboard.allow-animated-title")) {
+							 titleTasks.put(playerId,
+								 new TitleUpdateTask(configurationHandler, board).runTaskTimerAsynchronously(plugin,
+									 0L,
+									 configurationHandler.number("config.yml", "config.scoreboard.title.update-rate")));
+							 board.updateTitle(PlaceholderUtils.parse(player, board.getTitle()));
+						 } else {
+							 board.updateTitle(PlaceholderUtils.parse(player,
+								 configurationHandler.text("config.yml", "config.scoreboard.title.default")
+									 .replace("<release>", plugin.release)));
+						 }
+						 
+						 scoreboardTasks.put(playerId,
+							 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+								 board.updateLines(PlaceholderUtils.parse(player,
+										 configurationHandler.text("config.yml", "config.scoreboard.body.lines"))
+									 .split("\n"));
+								 }, 0L, configurationHandler.number("config.yml", "config.scoreboard.body.update-rate")));
 					 });
 			}
 		}
@@ -108,11 +97,12 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	 */
 	@Override
 	public void remove(UUID uuid) {
-		if (!scoreboards.containsKey(uuid) || !tasks.containsKey(uuid)) return;
+		if (!scoreboards.containsKey(uuid) || !scoreboardTasks.containsKey(uuid)) return;
 		
 		final FastBoard board = scoreboards.remove(uuid);
 		if (!board.isDeleted()) {
-			tasks.remove(uuid).cancel();
+			if (configurationHandler.condition("config.yml", "config.scoreboard.allow-animated-title")) titleTasks.remove(uuid).cancel();
+			scoreboardTasks.remove(uuid).cancel();
 			board.delete();
 		}
 	}
@@ -126,17 +116,24 @@ public final class ScoreboardHandlerImpl implements ScoreboardHandler {
 	public boolean toggle(Player player) {
 		final UUID playerId = player.getUniqueId();
 		
-		if (!scoreboards.containsKey(playerId) || !tasks.containsKey(playerId)) {
+		if (!scoreboards.containsKey(playerId) || !scoreboardTasks.containsKey(playerId)) {
 			create(player);
 			return true;
 		}
 		
 		final FastBoard board = scoreboards.remove(playerId);
 		if (!board.isDeleted()) {
-			tasks.remove(playerId).cancel();
+			if (configurationHandler.condition("config.yml", "config.scoreboard.allow-animated-title")) titleTasks.remove(playerId).cancel();
+			scoreboardTasks.remove(playerId).cancel();
 			board.delete();
 		}
-		
 		return false;
+	}
+	
+	@Override
+	public void clean() {
+		if (configurationHandler.condition("config.yml", "config.scoreboard.allow-animated-title")) titleTasks.clear();
+		scoreboardTasks.clear();
+		scoreboards.clear();
 	}
 }
