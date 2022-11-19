@@ -3,6 +3,7 @@ package net.xboard.services;
 import net.xboard.XBoard;
 import net.xboard.loaders.CommandHandler;
 import net.xboard.scoreboard.ScoreboardHandlerImpl;
+import net.xboard.utils.UpdateHandler;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,5 +27,9 @@ public interface HandlerService {
 	 */
 	static CommandHandler.Builder commandLoader(JavaPlugin plugin) {
 		return new CommandHandler.Builder(plugin);
+	}
+	
+	static UpdateHandler updateChecker(int resourceNumber) {
+		return new UpdateHandler(resourceNumber);
 	}
 }
