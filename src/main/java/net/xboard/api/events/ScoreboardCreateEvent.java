@@ -11,7 +11,7 @@ import java.util.Objects;
  * Event for handle when the Scoreboard is created to player.
  *
  * @author InitSync
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  * @see org.bukkit.event.Event
  * @see org.bukkit.event.Cancellable
