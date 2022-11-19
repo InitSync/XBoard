@@ -2,6 +2,9 @@ config:
   # Plugin Messages Prefix.
   prefix: "&d[XBoard]"
 
+  # Notify if there updates?
+  notify: true
+
   sounds:
     # Sounds ID's.
     no-perm: ENTITY_ITEM_BREAK
@@ -25,14 +28,32 @@ config:
     # Allow show the scoreboard to player?
     allow: true
 
+    # Allow the animated title?
+    allow-animated-title: true
+
     # Worlds list where the scoreboard can appear.
     worlds:
       - world
       - world_nether
       - world_the_end
 
-    # Title for each Scoreboard.
-    title: "&d[XBoard] &8- &7<release>"
+    title:
+      # Update rate to the title animated.
+      update-rate: 7
+
+      # Default title when the animation is disabled.
+      default: "&d[XBoard] &8- &7<release>"
+
+      # Title Lines.
+      lines:
+        - "&e[&dXBoard] &8- &7<release>"
+        - "&d[&eX&dBoard] &8- &7<release>"
+        - "&d[X&eB&doard] &8- &7<release>"
+        - "&d[XB&eo&dard] &8- &7<release>"
+        - "&d[XBo&ea&drd] &8- &7<release>"
+        - "&d[XBoa&er&dd] &8- &7<release>"
+        - "&d[XBoar&ed&d] &8- &7<release>"
+        - "&d[XBoard&e] &8- &7<release>"
 
     body:
       # Update rate for the body. (Scoreboard Lines)
