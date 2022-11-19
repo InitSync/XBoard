@@ -9,13 +9,13 @@ import java.util.logging.Logger;
  * Class for send logs easy and rapidly.
  *
  * @author InitSync
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
-public final class LogPrinter {
+public final class LogUtils {
 	private static final Logger LOGGER = XBoard.instance().getLogger();
 	
-	private LogPrinter() {}
+	private LogUtils() {}
 	
 	public static void info(String... logs) {
 		Arrays.asList(logs).forEach(LOGGER::info);
