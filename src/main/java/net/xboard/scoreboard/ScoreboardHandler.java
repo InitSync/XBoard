@@ -2,16 +2,14 @@ package net.xboard.scoreboard;
 
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 
-import java.util.Map;
 import java.util.UUID;
 
 /**
  * Model for the ScoreboardHandler.
  *
  * @author InitSync
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
 public interface ScoreboardHandler {
@@ -22,20 +20,6 @@ public interface ScoreboardHandler {
 	 * @return A FastBoard object.
 	 */
 	FastBoard getByUuid(UUID uuid);
-	
-	/**
-	 * Returns the Map that contains all the FastBoard objects (Scoreboards).
-	 *
-	 * @return A Map object.
-	 */
-	Map<UUID, FastBoard> scoreboards();
-	
-	/**
-	 * Returns the Map that contains all the Scoreboard tasks.
-	 *
-	 * @return A Map object.
-	 */
-	Map<UUID, BukkitTask> tasks();
 	
 	/**
 	 * Creates a new scoreboard to player.
@@ -58,4 +42,6 @@ public interface ScoreboardHandler {
 	 * @return A boolean value.
 	 */
 	boolean toggle(Player player);
+	
+	void clean();
 }
