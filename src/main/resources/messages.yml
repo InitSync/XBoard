@@ -24,3 +24,4 @@ messages:
   scoreboard-subtitle: "&fThe &7Scoreboard &fnow is <status>"
   scoreboard-title-usage: "<prefix> &eIntroduce a new title for the Scoreboard, can use colors!"
   scoreboard-title-changed: "<prefix> &eThe title of your Scoreboard was changed to <new_title>"
+  scoreboard-title-error: "<prefix> &cYou can't change the scoreboard title while the animated-title is enabled."
