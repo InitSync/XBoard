@@ -1,3 +1,6 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f28b1294865c4c8f9d4c7d5864722f68)](https://www.codacy.com/gh/InitSync/XBoard/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=InitSync/XBoard&amp;utm_campaign=Badge_Grade)
+[![](https://jitpack.io/v/InitSync/XBoard.svg)](https://jitpack.io/#InitSync/XBoard)
+
 **XBoard** is a simple and easy to use Scoreboard plugin for your Minecraft server that allows you create personalized scoreboards for your users without loss performance.
 
 # 🛠️ | Import
