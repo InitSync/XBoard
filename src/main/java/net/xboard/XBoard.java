@@ -7,7 +7,7 @@ import net.xboard.commands.completers.ScoreboardCompleter;
 import net.xboard.listeners.ScoreboardListener;
 import net.xboard.scoreboard.ScoreboardHandler;
 import net.xboard.services.HandlerService;
-import net.xboard.utils.LogPrinter;
+import net.xboard.utils.LogUtils;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
 import net.xconfig.bukkit.config.BukkitConfigurationModel;
 import net.xconfig.services.ConfigurationService;
@@ -18,14 +18,14 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Main Class.
  *
  * @author InitSync
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  * @see org.bukkit.plugin.java.JavaPlugin
  */
 public final class XBoard extends JavaPlugin {
 	private static XBoard instance;
 	
-	public final String release = this.getDescription().getVersion();
+	public final String release = getDescription().getVersion();
 	
 	private BukkitConfigurationModel configurationManager;
 	private BukkitConfigurationHandler configurationHandler;
@@ -74,14 +74,21 @@ public final class XBoard extends JavaPlugin {
 			.completer(new ScoreboardCompleter())
 			.register();
 		
-		LogPrinter.info("Started plugin successfully in '" + (System.currentTimeMillis() - startTime) + "'ms.",
+		LogUtils.info("Started plugin successfully in '" + (System.currentTimeMillis() - startTime) + "'ms.",
 			 "Running with [" + Bukkit.getVersion() + "]",
 			 "Developed by InitSync. Using latest version: " + release);
+		
+		if (configurationHandler.condition("config.yml", "config.notify")) {
+			HandlerService.updateChecker(106173).version(latest -> {
+				if (release.equals(latest)) LogUtils.info("There is not a new update available.");
+				else LogUtils.warn("There is a new update available: " + latest);
+			});
+		}
 	}
 	
 	@Override
 	public void onDisable() {
-		LogPrinter.info("Disabling plugin.", "Developed by InitSync. Using latest version: " + release);
+		LogUtils.info("Disabling plugin.", "Developed by InitSync. Using latest version: " + release);
 		
 		if (configurationManager != null) configurationManager = null;
 		if (configurationHandler != null) configurationHandler = null;
