@@ -4,8 +4,8 @@ import com.cryptomorin.xseries.XSound;
 import net.xboard.XBoard;
 import net.xboard.enums.Permission;
 import net.xboard.scoreboard.ScoreboardHandler;
-import net.xboard.utils.TextUtils;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
+import net.xconfig.bukkit.utils.TextUtils;
 import net.xconfig.enums.Action;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -56,8 +56,7 @@ public final class MainCommand implements CommandExecutor {
 					break;
 				case "reload":
 					if (args.length == 1) {
-						scoreboardHandler.tasks().clear();
-						scoreboardHandler.scoreboards().clear();
+						scoreboardHandler.clean();
 						
 						configurationHandler.doSomething("config.yml",
 							Action.RELOAD,
@@ -83,8 +82,7 @@ public final class MainCommand implements CommandExecutor {
 									.replace("<prefix>", prefix)));
 							break;
 						case "config":
-							scoreboardHandler.tasks().clear();
-							scoreboardHandler.scoreboards().clear();
+							scoreboardHandler.clean();
 							
 							configurationHandler.doSomething("config.yml",
 								Action.RELOAD,
@@ -146,8 +144,7 @@ public final class MainCommand implements CommandExecutor {
 			case "reload":
 				if (player.hasPermission(Permission.RELOAD_CMD.getPerm())) {
 					if (args.length == 1) {
-						scoreboardHandler.tasks().clear();
-						scoreboardHandler.scoreboards().clear();
+						scoreboardHandler.clean();
 						
 						configurationHandler.doSomething("config.yml",
 							Action.RELOAD,
@@ -173,8 +170,7 @@ public final class MainCommand implements CommandExecutor {
 									.replace("<prefix>", prefix)));
 							break;
 						case "config":
-							scoreboardHandler.tasks().clear();
-							scoreboardHandler.scoreboards().clear();
+							scoreboardHandler.clean();
 							
 							configurationHandler.doSomething("config.yml",
 								Action.RELOAD,
