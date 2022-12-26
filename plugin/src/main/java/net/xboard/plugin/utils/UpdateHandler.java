@@ -1,4 +1,4 @@
-package net.xboard.utils;
+package net.xboard.plugin.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +10,7 @@ public final class UpdateHandler {
 	private final int resourceNumber;
 	
 	public UpdateHandler(int resourceNumber) {
-		this.resourceNumber = resourceNumber <= 0
-			? -1
-			: resourceNumber;
+		this.resourceNumber = resourceNumber;
 	}
 	
 	public void version(Consumer<String> version) {
