@@ -1,3 +1,6 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f28b1294865c4c8f9d4c7d5864722f68)](https://www.codacy.com/gh/InitSync/XBoard/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=InitSync/XBoard&amp;utm_campaign=Badge_Grade)
+[![](https://jitpack.io/v/InitSync/XBoard.svg)](https://jitpack.io/#InitSync/XBoard)
+
 **XBoard** is a simple and easy to use Scoreboard plugin for your Minecraft server that allows you create personalized scoreboards for your users without loss performance.
 
 # 🛠️ | Import
@@ -13,7 +16,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly("com.github.InitSync:XBoard:1.0.0")
+  compileOnly("com.github.InitSync:XBoard:1.0.1")
 }
 ```
 
@@ -30,7 +33,7 @@ Maven
   <dependency>
     <groupId>com.github.InitSync</groupId>
     <artifactId>XBoard</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
   </dependency>
 </dependencies>
 ```
