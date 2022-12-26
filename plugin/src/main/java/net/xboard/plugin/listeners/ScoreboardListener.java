@@ -1,6 +1,6 @@
-package net.xboard.listeners;
+package net.xboard.plugin.listeners;
 
-import net.xboard.scoreboard.ScoreboardHandler;
+import net.xboard.api.handlers.ScoreboardHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +10,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Objects;
 
-public final class ScoreboardListener implements Listener {
+public final class ScoreboardListener
+implements Listener {
 	private final ScoreboardHandler scoreboardHandler;
 	
 	public ScoreboardListener(ScoreboardHandler scoreboardHandler) {
@@ -19,24 +20,19 @@ public final class ScoreboardListener implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		// Creates the scoreboard.
 		scoreboardHandler.create(event.getPlayer());
 	}
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-		// Removes the scoreboard.
 		scoreboardHandler.remove(event.getPlayer().getUniqueId());
 	}
 	
 	@EventHandler
 	public void onWorldChange(PlayerChangedWorldEvent event) {
-		// Gets the player.
-		final Player player = event.getPlayer();
+		Player player = event.getPlayer();
 		
-		// Removes the scoreboard.
 		scoreboardHandler.remove(player.getUniqueId());
-		// Creates the scoreboard.
 		scoreboardHandler.create(player);
 	}
 }
