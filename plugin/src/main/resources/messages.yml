@@ -5,7 +5,7 @@ messages:
   no-file: "<prefix> &cThat file doesn't exist or the name isn't valid!"
 
   help:
-    - "&d[XBoard] &7v<release> &8| &fAvailable Commands:"
+    - "&d[XBoard] &8| &fAvailable Commands:"
     - "&7 - &a/xboard help &fShows this message."
     - "&7 - &a/xboard reload &fReload the files."
     - "&7 - &a/scoreboard &fModify some scoreboard aspects."
