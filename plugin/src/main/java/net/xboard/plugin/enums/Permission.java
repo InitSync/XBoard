@@ -1,4 +1,4 @@
-package net.xboard.enums;
+package net.xboard.plugin.enums;
 
 public enum Permission {
 	HELP_CMD ("xboard.help"),
