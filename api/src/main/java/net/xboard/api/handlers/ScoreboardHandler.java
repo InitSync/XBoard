@@ -1,25 +1,18 @@
-package net.xboard.scoreboard;
+package net.xboard.api.handlers;
 
-import fr.mrmicky.fastboard.FastBoard;
+import net.xboard.api.scoreboard.SimpleBoard;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-/**
- * Model for the ScoreboardHandler.
- *
- * @author InitSync
- * @version 1.0.1
- * @since 1.0.0
- */
 public interface ScoreboardHandler {
 	/**
-	 * Returns a FastBoard object using the uuid as a key.
+	 * Returns a SimpleBoard object using the uuid of player.
 	 *
 	 * @param uuid Uuid of player.
 	 * @return A FastBoard object.
 	 */
-	FastBoard getByUuid(UUID uuid);
+	SimpleBoard getScoreboard(UUID uuid);
 	
 	/**
 	 * Creates a new scoreboard to player.
@@ -34,14 +27,6 @@ public interface ScoreboardHandler {
 	 * @param uuid Uuid of player.
 	 */
 	void remove(UUID uuid);
-	
-	/**
-	 * Toggles the scoreboard visibility.
-	 *
-	 * @param player Player object.
-	 * @return A boolean value.
-	 */
-	boolean toggle(Player player);
 	
 	void clean();
 }
