@@ -1,6 +1,5 @@
 package net.xboard.api.scoreboard;
 
-import fr.mrmicky.fastboard.FastReflection;
 import org.bukkit.Bukkit;
 
 import java.lang.invoke.MethodHandle;
@@ -88,7 +87,7 @@ public class SimpleBoardReflection {
 		}
 		
 		if (theUnsafe == null) {
-			synchronized (FastReflection.class) {
+			synchronized (SimpleBoardReflection.class) {
 				if (theUnsafe == null) {
 					Field theUnsafeField = Class.forName("sun.misc.Unsafe").getDeclaredField("theUnsafe");
 					theUnsafeField.setAccessible(true);
