@@ -1,6 +1,6 @@
 config:
   # Plugin Messages Prefix.
-  prefix: "&d[XBoard]"
+  prefix: "&dXBoard &8>"
 
   # Notify if there updates?
   notify: true
@@ -42,18 +42,17 @@ config:
       update-rate: 7
 
       # Default title when the animation is disabled.
-      default: "&d[XBoard] &8- &7<release>"
+      default: "&d[XBoard]"
 
       # Title Lines.
       lines:
-        - "&e[&dXBoard] &8- &7<release>"
-        - "&d[&eX&dBoard] &8- &7<release>"
-        - "&d[X&eB&doard] &8- &7<release>"
-        - "&d[XB&eo&dard] &8- &7<release>"
-        - "&d[XBo&ea&drd] &8- &7<release>"
-        - "&d[XBoa&er&dd] &8- &7<release>"
-        - "&d[XBoar&ed&d] &8- &7<release>"
-        - "&d[XBoard&e] &8- &7<release>"
+        - "&eX&dBoard"
+        - "&dX&eB&doard"
+        - "&dXB&eo&dard"
+        - "&dXBo&ea&drd"
+        - "&dXBoa&er&dd"
+        - "&dXBoar&ed"
+        - "&dXBoard"
 
     body:
       # Update rate for the body. (Scoreboard Lines)
