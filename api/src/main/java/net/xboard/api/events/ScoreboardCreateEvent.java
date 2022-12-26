@@ -7,32 +7,20 @@ import org.bukkit.event.HandlerList;
 
 import java.util.Objects;
 
-/**
- * Event for handle when the Scoreboard is created to player.
- *
- * @author InitSync
- * @version 1.0.1
- * @since 1.0.0
- * @see org.bukkit.event.Event
- * @see org.bukkit.event.Cancellable
- */
-public final class ScoreboardCreateEvent extends Event implements Cancellable {
-	private final HandlerList handlers;
+public class ScoreboardCreateEvent
+extends Event
+implements Cancellable {
+	private static final HandlerList HANDLER_LIST = new HandlerList();
+	
 	private final Player player;
 	
 	private boolean cancelled;
 	
 	public ScoreboardCreateEvent(Player player) {
-		this.handlers = new HandlerList();
 		this.player = Objects.requireNonNull(player, "The player is null.");
 	}
 	
-	/**
-	 * Returns the Player object of this event.
-	 *
-	 * @return A Player object.
-	 */
-	public Player player() {
+	public Player getPlayer() {
 		return player;
 	}
 	
@@ -43,11 +31,15 @@ public final class ScoreboardCreateEvent extends Event implements Cancellable {
 	
 	@Override
 	public void setCancelled(boolean cancel) {
-		this.cancelled = cancel;
+		cancelled = cancel;
 	}
 	
 	@Override
 	public HandlerList getHandlers() {
-		return handlers;
+		return HANDLER_LIST;
+	}
+	
+	public static HandlerList getHandlerList() {
+		return HANDLER_LIST;
 	}
 }
