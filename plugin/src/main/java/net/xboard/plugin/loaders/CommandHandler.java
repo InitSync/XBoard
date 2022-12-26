@@ -1,6 +1,6 @@
-package net.xboard.loaders;
+package net.xboard.plugin.loaders;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -23,8 +23,8 @@ public final class CommandHandler {
 		}
 		
 		public Builder command(String commandName) {
-			Validate.notEmpty(commandName, "The command name is empty.");
-			this.commandName = commandName;
+			this.commandName = Objects.requireNonNull(commandName, "The command name is null.");
+			Preconditions.checkArgument(!commandName.isEmpty(), "The command name is empty.");
 			return this;
 		}
 		
@@ -38,27 +38,17 @@ public final class CommandHandler {
 			return this;
 		}
 		
-		public Builder register() {
-			if (commandName == null) {
-				throw new NullPointerException("The command name is empty and can't be used.");
-			}
+		public void build() {
+			if (commandName == null) throw new IllegalArgumentException("The command name is empty and can't be used.");
 			
-			if (executor == null) {
-				throw new NullPointerException("The executor is null and can't be used.");
-			}
+			if (executor == null) throw new IllegalArgumentException("The executor is null and can't be used.");
 			
-			final PluginCommand command = plugin.getCommand(commandName);
-			assert command != null;
+			PluginCommand command = plugin.getCommand(commandName);
+			if (command == null) return;
+			
 			command.setExecutor(executor);
 			
-			if (completer != null) {
-				command.setTabCompleter(completer);
-				completer = null;
-			}
-			
-			commandName = null;
-			executor = null;
-			return this;
+			if (completer != null) command.setTabCompleter(completer);
 		}
 	}
 }
