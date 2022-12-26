@@ -1,4 +1,4 @@
-package net.xboard.commands.completers;
+package net.xboard.plugin.commands.completers;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -7,34 +7,21 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TabCompleter for the '/scoreboard' command.
- *
- * @author InitSync
- * @version 1.0.0
- * @since 1.0.0
- * @see org.bukkit.command.TabCompleter
- */
-public final class ScoreboardCompleter implements TabCompleter {
+public final class ScoreboardCommandCompleter implements TabCompleter {
 	private final List<String> scoreboardArgs;
 	
-	public ScoreboardCompleter() {
+	public ScoreboardCommandCompleter() {
 		scoreboardArgs = new ArrayList<>();
 	}
 	
 	@Override
-	public List<String> onTabComplete(
-		CommandSender sender,
-		Command command,
-		String label,
-		String[] args
-	) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (scoreboardArgs.isEmpty()) {
 			scoreboardArgs.add("toggle");
 			scoreboardArgs.add("title");
 		}
 		
-		final List<String> results = new ArrayList<>();
+		List<String> results = new ArrayList<>();
 		
 		if (args.length == 1) {
 			for (String result : scoreboardArgs) {
@@ -42,6 +29,7 @@ public final class ScoreboardCompleter implements TabCompleter {
 			}
 			return results;
 		}
+		
 		return null;
 	}
 }

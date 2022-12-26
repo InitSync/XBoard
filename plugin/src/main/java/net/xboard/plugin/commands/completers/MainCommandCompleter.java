@@ -1,4 +1,4 @@
-package net.xboard.commands.completers;
+package net.xboard.plugin.commands.completers;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -7,30 +7,18 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TabCompleter for the '/xboard' command.
- *
- * @author InitSync
- * @version 1.0.0
- * @since 1.0.0
- * @see org.bukkit.command.TabCompleter
- */
-public final class MainCompleter implements TabCompleter {
+public final class MainCommandCompleter
+implements TabCompleter {
 	private final List<String> commandArgs;
 	private final List<String> reloadArgs;
 	
-	public MainCompleter() {
+	public MainCommandCompleter() {
 		commandArgs = new ArrayList<>();
 		reloadArgs = new ArrayList<>();
 	}
 	
 	@Override
-	public List<String> onTabComplete(
-		CommandSender sender,
-		Command command,
-		String label,
-		String[] args
-	) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (commandArgs.isEmpty()) {
 			commandArgs.add("help");
 			commandArgs.add("reload");
@@ -41,7 +29,7 @@ public final class MainCompleter implements TabCompleter {
 			reloadArgs.add("messages");
 		}
 		
-		final List<String> results = new ArrayList<>();
+		List<String> results = new ArrayList<>();
 		
 		if (args.length == 1) {
 			for (String result : commandArgs) {
@@ -56,6 +44,7 @@ public final class MainCompleter implements TabCompleter {
 			}
 			return results;
 		}
+		
 		return null;
 	}
 }
