@@ -12,9 +12,6 @@ import net.xboard.plugin.services.HandlerService;
 import net.xconfig.bukkit.XConfigBukkit;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
 import net.xconfig.bukkit.config.BukkitConfigurationModel;
-import net.xtitle.api.AdaptManager;
-import net.xtitle.api.TitleManager;
-import net.xtitle.lib.XTitle;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,8 +23,6 @@ extends JavaPlugin {
 	
 	private BukkitConfigurationModel configurationManager;
 	private BukkitConfigurationHandler configurationHandler;
-	private AdaptManager adaptManager;
-	private TitleManager titleManager;
 	private ScoreboardHandler scoreboardHandler;
 
 	@Override
@@ -38,9 +33,6 @@ extends JavaPlugin {
 		
 		configurationManager = XConfigBukkit.manager(plugin);
 		configurationHandler = XConfigBukkit.handler(configurationManager);
-		adaptManager = XTitle.newAdaptManager();
-		adaptManager.findAdapt();
-		titleManager = XTitle.newTitleManager(adaptManager.getAdapt());
 		scoreboardHandler = HandlerService.newScoreboardHandler(plugin, configurationHandler);
 	}
 	
@@ -55,8 +47,8 @@ extends JavaPlugin {
 		return plugin;
 	}
 	
-	public TitleManager getTitleManager() {
-		return titleManager;
+	public BukkitConfigurationModel getConfigurationManager() {
+		return configurationManager;
 	}
 	
 	@Override
@@ -100,9 +92,6 @@ extends JavaPlugin {
 		if (configurationHandler != null) configurationHandler = null;
 		
 		if (scoreboardHandler != null) scoreboardHandler = null;
-		
-		if (titleManager != null) titleManager = null;
-		if (adaptManager != null) adaptManager = null;
 		
 		if (plugin != null) plugin = null;
 	}
