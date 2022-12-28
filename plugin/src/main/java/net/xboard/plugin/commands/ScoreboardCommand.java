@@ -25,7 +25,7 @@ implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		String prefix = configurationHandler.text("", "config.yml", "config.prefix", false);
+		String prefix = configurationHandler.text("", "config.yml", "config.prefix", true);
 		
 		if (!(sender instanceof Player)) {
 			sender.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-console", true).replace("<prefix>", prefix));
