@@ -23,7 +23,7 @@ config:
     #
     # GLOBAL: Uses the global format for all the scoreboards independent of player world.
     # WORLD: Uses a different format for the scoreboard dependent of player world.
-    mode: WORLD
+    mode: GLOBAL
 
     # Worlds list where the scoreboard can appear.
     # NOTE: This is only for the 'GLOBAL' mode.
