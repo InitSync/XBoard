@@ -15,11 +15,25 @@ public interface ScoreboardHandler {
 	SimpleBoard getScoreboard(UUID uuid);
 	
 	/**
-	 * Creates a new scoreboard to player.
+	 * Creates a new scoreboard to player checking the mode specified at the configuration.
 	 *
 	 * @param player Player object.
 	 */
 	void create(Player player);
+	
+	/**
+	 * Creates a new scoreboard to player using the world name specified.
+	 *
+	 * @param player Player object.
+	 */
+	void createByWorld(Player player);
+	
+	/**
+	 * Creates a new scoreboard global.
+	 *
+	 * @param player Player object.
+	 */
+	void createGlobal(Player player);
 	
 	/**
 	 * Removes the scoreboard to player.
@@ -28,5 +42,8 @@ public interface ScoreboardHandler {
 	 */
 	void remove(UUID uuid);
 	
-	void clean();
+	/**
+	 * Reloads all the enabled scoreboards.
+	 */
+	void reload();
 }

@@ -2,7 +2,6 @@ package net.xboard.plugin.scoreboard.tasks;
 
 import net.xboard.api.scoreboard.SimpleBoard;
 import net.xboard.plugin.utils.PlaceholderUtils;
-import net.xconfig.bukkit.config.BukkitConfigurationHandler;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -15,10 +14,10 @@ extends BukkitRunnable {
 	
 	private int rate;
 	
-	public TitleUpdateTask(BukkitConfigurationHandler configurationHandler, SimpleBoard board) {
+	public TitleUpdateTask(SimpleBoard board, List<String> lines, int rate) {
 		this.board = Objects.requireNonNull(board, "The FastBoard object is null.");
-		this.lines = configurationHandler.textList("", "config.yml", "config.scoreboard.title.lines", true);
-		this.rate = configurationHandler.number("", "config.yml", "config.scoreboard.title.update-rate");
+		this.lines = Objects.requireNonNull(lines, "The lines list is null.");
+		this.rate = rate;
 		
 		if (rate > lines.size()) {
 			throw new IndexOutOfBoundsException("The update-rate at the title is major than the size of the title list.\n"

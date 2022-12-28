@@ -1,13 +1,14 @@
 package net.xboard.plugin.scoreboard;
 
-import net.xboard.api.events.ScoreboardCreateEvent;
 import net.xboard.api.handlers.ScoreboardHandler;
 import net.xboard.api.scoreboard.SimpleBoard;
 import net.xboard.plugin.XBoard;
 import net.xboard.plugin.scoreboard.tasks.TitleUpdateTask;
+import net.xboard.plugin.utils.LogUtils;
 import net.xboard.plugin.utils.PlaceholderUtils;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -52,48 +53,107 @@ implements ScoreboardHandler {
 	}
 	
 	/**
-	 * Creates a new scoreboard to player.
+	 * Creates a new scoreboard to player checking the mode specified at the configuration.
 	 *
 	 * @param player Player object.
 	 */
 	@Override
 	public void create(Player player) {
-		ScoreboardCreateEvent event = new ScoreboardCreateEvent(player);
-		plugin.getServer()
-			.getPluginManager()
-			.callEvent(event);
-		if (!event.isCancelled()) {
-			if (configurationHandler.condition("", "config.yml", "config.scoreboard.allow")) {
-				
-				for (String worldName : configurationHandler.textList("", "config.yml", "config.scoreboard.worlds", false)) {
-					if (!player.getWorld().getName().equals(worldName)) continue;
-					
-					SimpleBoard board = new SimpleBoard(player);
-					UUID playerId = player.getUniqueId();
-					scoreboards.put(playerId, board);
-					
-					if (configurationHandler.condition("", "config.yml", "config.scoreboard.allow-animated-title")) {
-						titleTasks.put(playerId,
-							 new TitleUpdateTask(configurationHandler, board).runTaskTimerAsynchronously(
-								  plugin,
-								  0L,
-								  configurationHandler.number("", "config.yml", "config.scoreboard.title.update-rate")
-							 )
-						);
-						
-						board.updateTitle(PlaceholderUtils.parse(player, board.getTitle()));
-					} else {
-						board.updateTitle(PlaceholderUtils.parse(player, configurationHandler.text("", "config.yml", "config.scoreboard.title.default", true)));
-					}
-					
-					boardTasks.put(playerId,
-						 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-							 board.updateLines(PlaceholderUtils.parse(player, configurationHandler.text("", "config.yml", "config.scoreboard.body.lines", true))
-								  .split("\n"));
-						 }, 0L, configurationHandler.number("", "config.yml", "config.scoreboard.body.update-rate")));
-				}
+		if (!configurationHandler.condition("", "config.yml", "config.scoreboard.allow")) {
+			String scoreboardMode = configurationHandler.text("", "config.yml", "config.scoreboard.mode", false);
+			
+			switch (scoreboardMode.toUpperCase()) {
+				default:
+					LogUtils.error("Cannot create the scoreboard to player because the mode specified isn't valid -> " + scoreboardMode);
+					break;
+				case "GLOBAL":
+					createGlobal(player);
+					break;
+				case "WORLD": createByWorld(player);
 			}
 		}
+	}
+	
+	/**
+	 * Creates a new scoreboard to player using the world name specified.
+	 *
+	 * @param player    Player object.
+	 */
+	@Override
+	public void createByWorld(Player player) {
+		ConfigurationSection section = configurationHandler.configSection("", "config.yml", "config.scoreboard.types");
+
+		SimpleBoard board;
+		UUID playerId;
+		int titleRate;
+		
+		for (String key : section.getKeys(false)) {
+			section = configurationHandler.configSection("", "config.yml", "config.scoreboard.types." + key);
+			
+			if (!player.getWorld().getName().equals(section.getCurrentPath())) continue;
+			
+			board = new SimpleBoard(player);
+			playerId = player.getUniqueId();
+			scoreboards.put(playerId, board);
+			
+			if (section.getBoolean("allow-animated-title")) {
+				titleRate = section.getInt("title.update-rate");
+				
+				titleTasks.put(
+					 playerId,
+					 new TitleUpdateTask(board, section.getStringList("title.lines"), titleRate).runTaskTimerAsynchronously(plugin, 0L, titleRate)
+				);
+				
+				board.updateTitle(board.getTitle());
+			} else board.updateTitle(PlaceholderUtils.parse(player, section.getString("title.default")));
+			
+			// Final temp variables due to asynchronous process.
+			ConfigurationSection finalSection = section;
+			SimpleBoard finalBoard = board;
+			
+			boardTasks.put(
+				 playerId,
+				 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+					 finalBoard.updateLines(PlaceholderUtils.parse(player, finalSection.getString("body.lines")).split("\n"));
+				 }, 0L, section.getInt("body.update-rate")));
+		}
+	}
+	
+	/**
+	 * Creates a new scoreboard global.
+	 *
+	 * @param player Player object.
+	 */
+	@Override
+	public void createGlobal(Player player) {
+		if (!configurationHandler.textList("", "config.yml", "config.scoreboard.worlds", false).contains(player.getWorld().getName())) return;
+		
+		SimpleBoard board = new SimpleBoard(player);
+		UUID playerId = player.getUniqueId();
+		scoreboards.put(playerId, board);
+		
+		if (configurationHandler.condition("", "config.yml", "config.scoreboard.global.allow-animated-title")) {
+			int titleRate = configurationHandler.number("", "config.yml", "config.scoreboard.global.title.update-rate");
+			
+			titleTasks.put(
+				 playerId,
+				 new TitleUpdateTask(
+					  board,
+					  configurationHandler.textList("", "config.yml", "config.scoreboard.global.title.lines", true),
+					  titleRate
+				 ).runTaskTimerAsynchronously(plugin, 0L, titleRate)
+			);
+			
+			board.updateTitle(board.getTitle());
+		} else {
+			board.updateTitle(PlaceholderUtils.parse(player, configurationHandler.text("", "config.yml", "config.scoreboard.title.default", true)));
+		}
+		
+		boardTasks.put(playerId,
+			 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+				 board.updateLines(PlaceholderUtils.parse(player, configurationHandler.text("", "config.yml", "config.scoreboard.body.lines", true))
+					  .split("\n"));
+			 }, 0L, configurationHandler.number("", "config.yml", "config.scoreboard.body.update-rate")));
 	}
 	
 	/**
@@ -114,11 +174,18 @@ implements ScoreboardHandler {
 		}
 	}
 	
+	/**
+	 * Reloads all the enabled scoreboards.
+	 */
 	@Override
-	public void clean() {
+	public void reload() {
 		if (configurationHandler.condition("", "config.yml", "config.scoreboard.allow-animated-title")) titleTasks.clear();
 		
 		boardTasks.clear();
 		scoreboards.clear();
+		
+		plugin.getConfigurationManager().reload("", "config.yml");
+		
+		Bukkit.getOnlinePlayers().forEach(this::create);
 	}
 }
