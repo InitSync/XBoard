@@ -59,10 +59,10 @@ implements ScoreboardHandler {
 	 */
 	@Override
 	public void create(Player player) {
-		if (!configurationHandler.condition("", "config.yml", "config.scoreboard.allow")) {
+		if (configurationHandler.condition("", "config.yml", "config.scoreboard.allow")) {
 			String scoreboardMode = configurationHandler.text("", "config.yml", "config.scoreboard.mode", false);
 			
-			switch (scoreboardMode.toUpperCase()) {
+			switch (scoreboardMode) {
 				default:
 					LogUtils.error("Cannot create the scoreboard to player because the mode specified isn't valid -> " + scoreboardMode);
 					break;
@@ -90,7 +90,7 @@ implements ScoreboardHandler {
 		for (String key : section.getKeys(false)) {
 			section = configurationHandler.configSection("", "config.yml", "config.scoreboard.types." + key);
 			
-			if (!player.getWorld().getName().equals(section.getCurrentPath())) continue;
+			if (!player.getWorld().getName().equals(section.getName())) continue;
 			
 			board = new SimpleBoard(player);
 			playerId = player.getUniqueId();
