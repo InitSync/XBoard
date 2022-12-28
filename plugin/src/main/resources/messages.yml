@@ -20,8 +20,6 @@ messages:
   scoreboard-usage: "<prefix> &fScoreboard sub-commands:<br>&7 - &etoggle &fToggle the visibility.<br>&7 - &etitle &fChanges the title."
   scoreboard-on: "<prefix> &a&lSCOREBOARD ENABLED! &fThe scoreboard now is visible."
   scoreboard-off: "<prefix> &c&lSCOREBOARD DISABLED! &fThe scoreboard isn't visible."
-  scoreboard-title: "&d&lSCOREBOARD"
-  scoreboard-subtitle: "&fThe &7Scoreboard &fnow is <status>"
   scoreboard-title-usage: "<prefix> &eIntroduce a new title for the Scoreboard, can use colors!"
   scoreboard-title-changed: "<prefix> &eThe title of your Scoreboard was changed to <new_title>"
   scoreboard-title-error: "<prefix> &cYou can't change the scoreboard title while the animated-title is enabled."
