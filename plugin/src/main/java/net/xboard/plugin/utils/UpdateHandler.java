@@ -14,7 +14,7 @@ public final class UpdateHandler {
 	}
 	
 	public void version(Consumer<String> version) {
-		try (InputStream stream = new URL("https://api.spigotmc/org/legacy/update.php?resource=" + resourceNumber).openStream()) {
+		try (InputStream stream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + resourceNumber).openStream()) {
 			Scanner scanner = new Scanner(stream);
 			if (scanner.hasNext()) version.accept(scanner.next());
 		} catch (IOException exception) {
