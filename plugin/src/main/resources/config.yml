@@ -14,63 +14,99 @@ config:
     # Sounds Volume.
     volume-level: 1
 
-  titles:
-    # In coming time.
-    fade-in: 20
-
-    # Staying time.
-    stay: 60
-
-    # Outing time.
-    fade-out: 20
-
   scoreboard:
     # Allow show the scoreboard to player?
     allow: true
 
-    # Allow the animated title?
-    allow-animated-title: true
+    # Scoreboard Modes:
+    # Available -> GLOBAL - WORLD
+    #
+    # GLOBAL: Uses the global format for all the scoreboards independent of player world.
+    # WORLD: Uses a different format for the scoreboard dependent of player world.
+    mode: WORLD
 
     # Worlds list where the scoreboard can appear.
+    # NOTE: This is only for the 'GLOBAL' mode.
     worlds:
       - world
       - world_nether
       - world_the_end
 
-    title:
-      # Update rate to the title animated.
-      update-rate: 7
+    # Global Format Type.
+    global:
+      title:
+        # Allow the animated title?
+        allow-animated-title: true
 
-      # Default title when the animation is disabled.
-      default: "&d[XBoard]"
+        # Update rate to the title animated.
+        update-rate: 7
 
-      # Title Lines.
-      lines:
-        - "&eX&dBoard"
-        - "&dX&eB&doard"
-        - "&dXB&eo&dard"
-        - "&dXBo&ea&drd"
-        - "&dXBoa&er&dd"
-        - "&dXBoar&ed"
-        - "&dXBoard"
+        # Default title when the animation is disabled.
+        default: "&dXBoard &8(&7%server_online%&8) &7- &fL1"
 
-    body:
-      # Update rate for the body. (Scoreboard Lines)
-      update-rate: 20
+        # Title Lines.
+        lines:
+          - "&eX&dBoard &8(&7%server_online%&8) &7- &fL1"
+          - "&dX&eB&doard &8(&7%server_online%&8) &7- &fL1"
+          - "&dXB&eo&dard &8(&7%server_online%&8) &7- &fL1"
+          - "&dXBo&ea&drd &8(&7%server_online%&8) &7- &fL1"
+          - "&dXBoa&er&dd &8(&7%server_online%&8) &7- &fL1"
+          - "&dXBoar&ed &8(&7%server_online%&8) &7- &fL1"
+          - "&dXBoard &8(&7%server_online%&8) &7- &fL1)"
 
-      # Scoreboard Body Lines.
-      lines: |-
-        &l
-        &6&l INFORMATION
-        &l
-        &7 • &fNick: &6%player_name%
-        &7 • &fRank: %vault_prefix%
-        &7 • &fLevel: &b%player_level%
-        &l
-        &9&l SERVER
-        &l
-        &7 • &fServer: &eLobby
-        &7 • &fConnected: &a%server_online%
-        &7 • &fGlobal: &a%bungee_global%
-        &l
-        &a  mc.yourServer.net
+      body:
+        # Update rate for the body. (Scoreboard Lines)
+        update-rate: 20
+
+        # Scoreboard Body Lines.
+        lines: |-
+          &l
+          &6&l INFORMATION
+          &l
+          &7 • &fNick: &6%player_name%
+          &7 • &fRank: %vault_prefix%
+          &7 • &fLevel: &b%player_level%
+          &l
+          &9&l SERVER
+          &l
+          &7 • &fServer: &eLobby
+          &7 • &fConnected: &a%server_online%
+          &7 • &fGlobal: &a%bungee_global%
+          &l
+          &a  mc.yourServer.net
+
+    types:
+      # Worlds Scoreboards
+      world:
+        title:
+          # Allow the animated title?
+          allow-animated-title: false
+
+          # Update rate to the title animated.
+          update-rate: 7
+
+          # Default title when the animation is disabled.
+          default: "&7Current World: &a&lWORLD"
+
+          lines: []
+
+        body:
+          # Update rate for the body. (Scoreboard Lines)
+          update-rate: 20
+
+          # Scoreboard Body Lines.
+          lines: |-
+            &l
+            &6&l INFORMATION
+            &l
+            &7 • &fNick: &6%player_name%
+            &7 • &fRank: %vault_prefix%
+            &7 • &fLevel: &b%player_level%
+            &l
+            &9&l WORLD
+            &l
+            &7 • &fName: &eworld
+            &7 • &fConnected: &a%server_online%
+            &7 • &fGlobal: &a%bungee_global%
+            &l
+            &a  mc.yourServer.net
