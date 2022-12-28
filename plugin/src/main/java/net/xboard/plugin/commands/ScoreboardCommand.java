@@ -34,60 +34,7 @@ implements CommandExecutor {
 		
 		Player player = (Player) sender;
 		
-		if (player.hasPermission(Permission.SCOREBOARD_CMD.getPerm())) {
-			if (args.length == 0) {
-				player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-usage", true).replace("<prefix>", prefix));
-				return false;
-			}
-			
-			switch (args[0]) {
-				default:
-					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-command", true).replace("<prefix>", prefix));
-					break;
-				case "toggle":
-					if (scoreboardHandler.getScoreboard(player.getUniqueId()).isDeleted()) {
-						player.playSound(
-							 player.getLocation(),
-							 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.scoreboard", false)).get().parseSound(),
-							 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
-							 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
-						);
-						player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-on", true).replace("<prefix>", prefix));
-						return false;
-					}
-					
-					player.playSound(
-						 player.getLocation(),
-						 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.scoreboard", false)).get().parseSound(),
-						 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
-						 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
-					);
-					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-off", true).replace("<prefix>", prefix));
-					break;
-				case "title":
-					if (configurationHandler.condition("", "config.yml", "config.scoreboard.allow-animated-title")) {
-						player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-title-error", true).replace("<prefix>", prefix));
-						return false;
-					}
-					
-					if (args.length == 1) {
-						player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-title-usage", true).replace("<prefix>", prefix));
-						return false;
-					}
-					
-					SimpleBoard board = scoreboardHandler.getScoreboard(player.getUniqueId());
-					if (board == null) return false;
-					
-					String newTitle = PlaceholderUtils.parse(player, args[1]);
-					board.updateTitle(newTitle);
-					
-					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-title-changed", true)
-						 .replace("<prefix>", prefix)
-						 .replace("<new_title>", newTitle)
-					);
-					break;
-			}
-		} else {
+		if (!player.hasPermission(Permission.SCOREBOARD_CMD.getPerm())) {
 			player.playSound(
 				 player.getLocation(),
 				 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.no-perm", false)).get().parseSound(),
@@ -95,6 +42,60 @@ implements CommandExecutor {
 				 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
 			);
 			player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-perm", true).replace("<prefix>", prefix));
+			return false;
+		}
+		
+		if (args.length == 0) {
+			player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-usage", true).replace("<prefix>", prefix));
+			return false;
+		}
+		
+		switch (args[0]) {
+			default:
+				player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-command", true).replace("<prefix>", prefix));
+				break;
+			case "toggle":
+				if (scoreboardHandler.getScoreboard(player.getUniqueId()).isDeleted()) {
+					player.playSound(
+						 player.getLocation(),
+						 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.scoreboard", false)).get().parseSound(),
+						 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
+						 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
+					);
+					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-on", true).replace("<prefix>", prefix));
+					return false;
+				}
+				
+				player.playSound(
+					 player.getLocation(),
+					 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.scoreboard", false)).get().parseSound(),
+					 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
+					 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
+				);
+				player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-off", true).replace("<prefix>", prefix));
+				break;
+			case "title":
+				if (configurationHandler.condition("", "config.yml", "config.scoreboard.allow-animated-title")) {
+					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-title-error", true).replace("<prefix>", prefix));
+					return false;
+				}
+				
+				if (args.length == 1) {
+					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-title-usage", true).replace("<prefix>", prefix));
+					return false;
+				}
+				
+				SimpleBoard board = scoreboardHandler.getScoreboard(player.getUniqueId());
+				if (board == null) return false;
+				
+				String newTitle = PlaceholderUtils.parse(player, args[1]);
+				board.updateTitle(newTitle);
+				
+				player.sendMessage(configurationHandler.text("", "messages.yml", "messages.scoreboard-title-changed", true)
+					 .replace("<prefix>", prefix)
+					 .replace("<new_title>", newTitle)
+				);
+				break;
 		}
 		return false;
 	}
