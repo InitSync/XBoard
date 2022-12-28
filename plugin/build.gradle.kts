@@ -23,8 +23,6 @@ dependencies {
 	implementation(project(":api"))
 	
 	implementation("com.github.InitSync.XConfig:bukkit:1.1.3")
-	implementation("com.github.cryptomorin:XSeries:9.2.0")
-	implementation("com.github.InitSync:XTitle:1.0.1")
 }
 
 bukkit {
@@ -69,7 +67,6 @@ tasks {
 		minimize()
 
 		relocate("net.xconfig.bukkit", "net.xboard.libraries.xconfig")
-		relocate("com.cryptomorin.xseries", "net.xboard.libraries.xseries")
 	}
 	
 	withType<JavaCompile> {
