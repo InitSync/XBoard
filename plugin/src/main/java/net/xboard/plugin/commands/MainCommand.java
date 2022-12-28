@@ -1,7 +1,7 @@
 package net.xboard.plugin.commands;
 
-import com.cryptomorin.xseries.XSound;
 import net.xboard.api.handlers.ScoreboardHandler;
+import net.xboard.api.utils.XSound;
 import net.xboard.plugin.XBoard;
 import net.xboard.plugin.enums.Permission;
 import net.xconfig.bukkit.config.BukkitConfigurationHandler;
@@ -29,7 +29,7 @@ implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		String prefix = configurationHandler.text("", "config.yml", "config.prefix", false);
+		String prefix = configurationHandler.text("", "config.yml", "config.prefix", true);
 		String version = XBoard.getPlugin().release;
 		
 		if (!(sender instanceof Player)) {
@@ -48,12 +48,8 @@ implements CommandExecutor {
 					break;
 				case "reload":
 					if (args.length == 1) {
-						scoreboardHandler.clean();
-						
-						configurationManager.reload("", "config.yml");
 						configurationManager.reload("", "messages.yml");
-						
-						Bukkit.getOnlinePlayers().forEach(scoreboardHandler::create);
+						scoreboardHandler.reload();
 						
 						sender.sendMessage(configurationHandler.text("", "messages.yml", "messages.reload-all", true).replace("<prefix>", prefix));
 						break;
@@ -64,12 +60,7 @@ implements CommandExecutor {
 							sender.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-file", true).replace("<prefix>", prefix));
 							break;
 						case "config":
-							scoreboardHandler.clean();
-							
-							configurationManager.reload("", "config.yml");
-							configurationManager.reload("", "messages.yml");
-							
-							Bukkit.getOnlinePlayers().forEach(scoreboardHandler::create);
+							scoreboardHandler.reload();
 							
 							sender.sendMessage(configurationHandler.text("", "messages.yml", "messages.reload-config", true).replace("<prefix>", prefix));
 							break;
@@ -96,52 +87,7 @@ implements CommandExecutor {
 				player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-command", true).replace("<prefix>", prefix));
 				break;
 			case "help":
-				if (player.hasPermission(Permission.HELP_CMD.getPerm())) {
-					configurationHandler.textList("", "messages.yml", "messages.help", true).forEach(player::sendMessage);
-				} else {
-					player.playSound(
-						 player.getLocation(),
-						 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.no-perm", false)).get().parseSound(),
-						 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
-						 configurationHandler.number("", "config.yml", "config.sounds.volume-level"));
-					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-perm", true).replace("<prefix>", prefix));
-				}
-				break;
-			case "reload":
-				if (player.hasPermission(Permission.RELOAD_CMD.getPerm())) {
-					if (args.length == 1) {
-						scoreboardHandler.clean();
-						
-						configurationManager.reload("", "config.yml");
-						configurationManager.reload("", "messages.yml");
-						
-						Bukkit.getOnlinePlayers().forEach(scoreboardHandler::create);
-						
-						player.sendMessage(configurationHandler.text("", "messages.yml", "messages.reload-all", true).replace("<prefix>", prefix));
-						break;
-					}
-					
-					switch (args[1]) {
-						default:
-							player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-file", true).replace("<prefix>", prefix));
-							break;
-						case "config":
-							scoreboardHandler.clean();
-							
-							configurationManager.reload("", "config.yml");
-							configurationManager.reload("", "messages.yml");
-							
-							Bukkit.getOnlinePlayers().forEach(scoreboardHandler::create);
-							
-							player.sendMessage(configurationHandler.text("", "messages.yml", "messages.reload-config", true).replace("<prefix>", prefix));
-							break;
-						case "messages":
-							configurationManager.reload("", "messages.yml");
-							
-							player.sendMessage(configurationHandler.text("", "messages.yml", "messages.reload-messages", true).replace("<prefix>", prefix));
-							break;
-					}
-				} else {
+				if (!player.hasPermission(Permission.HELP_CMD.getPerm())) {
 					player.playSound(
 						 player.getLocation(),
 						 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.no-perm", false)).get().parseSound(),
@@ -149,6 +95,63 @@ implements CommandExecutor {
 						 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
 					);
 					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-perm", true).replace("<prefix>", prefix));
+					return false;
+				}
+				
+				configurationHandler.textList("", "messages.yml", "messages.help", true).forEach(player::sendMessage);
+				break;
+			case "reload":
+				if (!player.hasPermission(Permission.RELOAD_CMD.getPerm())) {
+					player.playSound(
+						 player.getLocation(),
+						 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.no-perm", false)).get().parseSound(),
+						 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
+						 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
+					);
+					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-perm", true).replace("<prefix>", prefix));
+					return false;
+				}
+				
+				if (args.length == 1) {
+					configurationManager.reload("", "messages.yml");
+					scoreboardHandler.reload();
+					
+					player.playSound(
+						 player.getLocation(),
+						 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.reload", false)).get().parseSound(),
+						 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
+						 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
+					);
+					player.sendMessage(configurationHandler.text("", "messages.yml", "messages.reload-all", true).replace("<prefix>", prefix));
+					break;
+				}
+				
+				switch (args[1]) {
+					default:
+						player.sendMessage(configurationHandler.text("", "messages.yml", "messages.no-file", true).replace("<prefix>", prefix));
+						break;
+					case "config":
+						scoreboardHandler.reload();
+						
+						player.playSound(
+							 player.getLocation(),
+							 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.reload", false)).get().parseSound(),
+							 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
+							 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
+						);
+						player.sendMessage(configurationHandler.text("", "messages.yml", "messages.reload-config", true).replace("<prefix>", prefix));
+						break;
+					case "messages":
+						configurationManager.reload("", "messages.yml");
+						
+						player.playSound(
+							 player.getLocation(),
+							 XSound.matchXSound(configurationHandler.text("", "config.yml", "config.sounds.reload", false)).get().parseSound(),
+							 configurationHandler.number("", "config.yml", "config.sounds.volume-level"),
+							 configurationHandler.number("", "config.yml", "config.sounds.volume-level")
+						);
+						player.sendMessage(configurationHandler.text("", "messages.yml", "messages.reload-messages", true).replace("<prefix>", prefix));
+						break;
 				}
 				break;
 		}
